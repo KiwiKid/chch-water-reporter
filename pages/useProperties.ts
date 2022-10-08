@@ -3,7 +3,7 @@ import PropertyWithUsages from "./PropertyWithUsage";
 
 export type PropertyStatus = 'idle'|'fetching'|'fetched'
 
-const NO_CACHE = true
+const NO_CACHE = process.env.REACT_APP_NO_CACHE || false
 const useProperties = () => {
     const [status, setStatus] = useState<PropertyStatus>('idle');
     const [properties, setProperties] = useState<PropertyWithUsages[]>([]);
