@@ -17,7 +17,6 @@ export default async function handler(
 
   const usagesResponse = await fetch('http://192.168.1.5:1888/chch-water-usage/all')
   const usagesRaw = await usagesResponse.json();
-  console.log(usagesRaw)
   const usages = usagesRaw.usages.map((p:Usage) => new Usage(p));
 
   const joiner = new PropertyWithUsageGenerator(properties, usages)

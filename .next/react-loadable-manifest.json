@@ -1,1 +1,8 @@
-{}
+{
+  "MyMapContainer.tsx -> ./LeafletMap": {
+    "id": "MyMapContainer.tsx -> ./LeafletMap",
+    "files": [
+      "static/chunks/pages_LeafletMap_tsx.js"
+    ]
+  }
+}

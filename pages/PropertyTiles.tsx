@@ -39,15 +39,21 @@ export default function PropertyTiles({}:PropertyTilesProps) {
     {status === 'idle' && <>waiting</>}
     {status === 'fetched' && properties.length && properties.map((p) => {
       return (p.property.point && <>{JSON.stringify(p.property.point)}
+        <>[{p.color}  {p.color_percent}]</>
         {p.usages.length > 0 && <CircleMarker color={p.color} radius={5} key={p.property.id} center={p.property.point}>
             <Popup>
+              <div>
+                {p.averageUsage}
+              </div>
               <table> {p.usages.map((u) => (
-              <tr key={u.id} style={{borderColor: u.color}} color={u.color}>
+              <tr key={u.id} style={{backgroundColor: u.color}}>
                 <td>{u.date_for}</td>
                 <td>{u.avg_per_day_ltr}</td>
                 <td>{u.level}</td>
                 <td>{u.comments}</td>
                 <td>{u.days_for}</td>
+                <td>{u.color_percent}</td>
+                <td>{u.color}</td>
               </tr>
               ))}
               

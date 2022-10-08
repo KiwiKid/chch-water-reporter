@@ -1,3 +1,10 @@
+import getColor from "./lib/getColor"
+import hsl_col_perc from "./lib/getColorPercent"
+import getPercent from "./lib/getPercent"
+
+const COLOR_RANGE_BOTTOM = 300
+const COLOR_RANGE_TOP = 2000
+
 type UsageProps = {
   property_id:string
   date_for:string
@@ -10,25 +17,19 @@ type UsageProps = {
   id:number
 }
 
-const colorMap = [
-  {color: '#00FF00', min: 300, max: 500},
-  {color: '#0000FF', min: 500, max: 700},
-  {color: '#FF0000', min: 500, max: 700}
-]
-
 class Usage {
   property_id:string
   date_for:string
   days_for:string
   avg_per_day_ltr:string
   avg_per_day_price:string
+  avg_per_day_ltr_num:number
   level:'High'|'Low'
   comments:string
   status:string
   id:number
   color:string
-
-  avg_per_day_ltr_num:number
+  color_percent:number
 
   constructor({property_id ,date_for ,days_for ,avg_per_day_ltr ,avg_per_day_price ,level ,comments ,status ,id}: UsageProps) {
     this.property_id = property_id;
@@ -38,6 +39,7 @@ class Usage {
     if(avg_per_day_ltr && avg_per_day_ltr.indexOf('L') > 0){
       this.avg_per_day_ltr_num = parseInt(this.avg_per_day_ltr.replace('L', ''))
     }else{
+      this.avg_per_day_ltr_num = 0
       console.error(`Weird conversion for avc_per_day_ltr? ${avg_per_day_ltr}`)
     }
     
@@ -47,12 +49,8 @@ class Usage {
     this.status = status;
     this.id = id;
 
-    const colorMatch =  colorMap.filter((c) => c.min > this.avg_per_day_ltr_num && c.max > this.avg_per_day_ltr_num)
-    if(colorMatch){
-      this.color = colorMap[0].color
-    }else{
-      this.color = '#00FF00'
-    }
+    this.color_percent = (this.avg_per_day_ltr_num || 1)/COLOR_RANGE_TOP
+    this.color = getColor( this.color_percent)
   }
 }
 

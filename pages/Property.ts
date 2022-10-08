@@ -45,7 +45,6 @@ class Property {
     const transform = transformation("EPSG:2193", "EPSG:4326")
 
     const projectedLatLng = transform.forward([lat,lng])
-    console.log(`${projectedLatLng[1]} ${projectedLatLng[0]}`)
     this.point = [projectedLatLng[1], projectedLatLng[0]] as LatLngExpression
     this.raw = raw;
     this.last_usage_update = last_usage_update;
