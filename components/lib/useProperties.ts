@@ -26,7 +26,7 @@ const useProperties = () => {
         try{
             if(cacheSetting == 'test'){
                 console.info(`Gettting properties from the test data file`)
-                setProperties(testData as PropertyWithUsages[]);
+                setProperties(testData as unknown as PropertyWithUsages[]);
                 setStatus('fetched');
                 return; 
             }else{
