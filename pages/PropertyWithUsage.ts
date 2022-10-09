@@ -1,6 +1,6 @@
-import getColor from "./lib/getColor";
-import hsl_col_perc from "./lib/getColorPercent";
-import getPercent from "./lib/getPercent";
+import getColor from "../components/lib/getColor";
+import hsl_col_perc from "../components/lib/getColorPercent";
+import getPercent from "../components/lib/getPercent";
 import Property from "./Property";
 import Usage from "./Usage";
 

@@ -1,6 +1,6 @@
-import getColor from "./lib/getColor"
-import hsl_col_perc from "./lib/getColorPercent"
-import getPercent from "./lib/getPercent"
+import getColor from "../components/lib/getColor"
+import hsl_col_perc from "../components/lib/getColorPercent"
+import getPercent from "../components/lib/getPercent"
 
 const COLOR_RANGE_BOTTOM = 300
 const COLOR_RANGE_TOP = 2000

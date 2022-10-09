@@ -1,9 +1,8 @@
-import { Popup, CircleMarker } from 'react-leaflet'
-import PropertyWithUsages from "./PropertyWithUsage";
-import { PropertyStatus, useProperties } from "./useProperties";
+import { CircleMarker, Popup } from "react-leaflet";
+import { useProperties } from "./lib/useProperties";
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
-type PropertyTilesProps = {
+type PropertyTilesProps = {   
  // properties:PropertyWithUsages[]
   //status:PropertyStatus
 }

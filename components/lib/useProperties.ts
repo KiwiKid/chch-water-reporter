@@ -1,8 +1,8 @@
 import localforage from "localforage";
 import { useEffect, useState } from "react";
-import PropertyWithUsages from "./PropertyWithUsage";
+import PropertyWithUsages from "../../pages/PropertyWithUsage";
 
-import testData from './data/test_data.json'
+import testData from '../../pages/data/test_data.json'
 
 export type PropertyStatus = 'idle'|'fetching'|'fetched'
 
