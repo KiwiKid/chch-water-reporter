@@ -6,7 +6,7 @@ type MyMapContainerProps = {
   // children:JSX.Element
 }
 
-const LeafletMap = dynamic(import('../components/LeafletMap'), {
+const LeafletMap = dynamic(import('./LeafletMap'), {
   ssr: false,
   loading: () => (
     <div>Loading...</div>

@@ -1,6 +1,6 @@
 import localforage from "localforage";
 import { useEffect, useState } from "react";
-import PropertyWithUsages from "../../pages/PropertyWithUsage";
+import PropertyWithUsages from "../PropertyWithUsage";
 
 import testData from '../../pages/data/test_data.json'
 

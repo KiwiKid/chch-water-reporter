@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Property from '../Property'
-import PropertyWithUsages from '../PropertyWithUsage'
-import PropertyWithUsageGenerator from '../PropertyWithUsageGenerator'
-import Usage from '../Usage'
+import Property from '../../components/Property'
+import PropertyWithUsages from '../../components/PropertyWithUsage'
+import PropertyWithUsageGenerator from '../../components/PropertyWithUsageGenerator'
+import Usage from '../../components/Usage'
 
 export default async function handler(
   req: NextApiRequest,
