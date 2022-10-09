@@ -1,6 +1,5 @@
 import getColor from "./lib/getColor"
-import hsl_col_perc from "./lib/getColorPercent"
-import getPercent from "./lib/getPercent"
+
 
 const COLOR_RANGE_BOTTOM = 300
 const COLOR_RANGE_TOP = 2000
@@ -28,9 +27,7 @@ class Usage {
   comments:string
   status:string
   id:number
-  color:string
-  color_percent:number
-
+  
   constructor({property_id ,date_for ,days_for ,avg_per_day_ltr ,avg_per_day_price ,level ,comments ,status ,id}: UsageProps) {
     this.property_id = property_id;
     this.date_for = date_for;
@@ -49,9 +46,7 @@ class Usage {
     this.status = status;
     this.id = id;
 
-    this.color_percent = (this.avg_per_day_ltr_num || 1)/COLOR_RANGE_TOP
-    this.color = getColor( this.color_percent)
-  }
+   }
 }
 
 export default Usage

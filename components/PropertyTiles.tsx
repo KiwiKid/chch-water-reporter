@@ -1,5 +1,7 @@
 import { CircleMarker, Popup } from "react-leaflet";
+import getColor from "./lib/getColor";
 import { useProperties } from "./lib/useProperties";
+import PropertyWithUsages from "./PropertyWithUsage";
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type PropertyTilesProps = {   
@@ -32,30 +34,53 @@ export default function PropertyTiles({}:PropertyTilesProps) {
 
    //  const latLng = 
 
+  
+
 
   return <>
     {status === 'fetching' && <>loading</>}
     {status === 'idle' && <>waiting</>}
     {status === 'fetched' && properties.length && properties.map((p) => {
+      const propertyColor = getColor(p.averageUsage)
       return (p.property.point && <>{JSON.stringify(p.property.point)}
-        <>[{p.color}  {p.color_percent}]</>
-        {p.usages.length > 0 && <CircleMarker color={p.color} radius={5} key={p.property.id} center={p.property.point}>
+        <>[  {p.averageUsage}]</>
+        <style>{`
+          .low-level{
+            backgroundColor: green
+          }
+          .med-level{
+            backgroundColor: blue
+            color: white;
+          }
+          .high-level{
+            backgroundColor: red;
+            color: white;
+          }
+          .vhigh-level{
+            backgroundColor: black
+            color: white;
+          }
+          `}
+        </style>
+        {p.usages.length > 0 && <CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.color} radius={5} key={p.property.id} center={p.property.point}>
             <Popup>
               <div>
-                {p.averageUsage}
+                Total Property Average: {p.averageUsage}
               </div>
-              <table> {p.usages.map((u) => (
-              <tr key={u.id} style={{backgroundColor: u.color}}>
-                <td>{u.date_for}</td>
-                <td>{u.avg_per_day_ltr}</td>
-                <td>{u.level}</td>
-                <td>{u.comments}</td>
-                <td>{u.days_for}</td>
-                <td>{u.color_percent}</td>
-                <td>{u.color}</td>
-              </tr>
-              ))}
-              
+              <table> {p.usages.map((u) => {
+                      
+                  const usageColor = getColor(p.averageUsage)
+
+                return(
+                  <tr key={u.id} className={usageColor.color} style={{backgroundColor: usageColor.colorCode}}>
+                    <td>{u.date_for}</td>
+                    <td>{u.avg_per_day_ltr}</td>
+                    <td>{u.level}</td>
+                    <td>{u.days_for}</td>
+                    <td>{usageColor.color}</td>
+                  </tr>
+                  )
+                })}
               </table>
             </Popup>
         </CircleMarker>

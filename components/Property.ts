@@ -50,6 +50,7 @@ class Property {
     this.last_usage_update = last_usage_update;
    // this.geoJSON = JSON.parse(raw).Geometry
 
+    
   }
 }
 

@@ -7,3 +7,5 @@ DIR="$( cd "$( dirname "$0" )" && pwd )"
 curl 'http://localhost:3000/api/property' >> "$DIR/../pages/data/test_data_new.json"
 
 echo "new file here: $DIR/../pages/data/test_data_new.json"
+
+echo "Rename to \"test_data.json\" to apply"

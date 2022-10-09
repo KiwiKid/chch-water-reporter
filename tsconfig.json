@@ -16,6 +16,6 @@
     "incremental": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "node_modules/@types", "pages/data/test_data.json"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "node_modules/@types", "pages/data/**.json"],
   "exclude": ["node_modules"]
 }
