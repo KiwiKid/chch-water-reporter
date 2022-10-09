@@ -1,9 +1,5 @@
-import getColor from "../components/lib/getColor";
 import Property from "./Property";
 import Usage from "./Usage";
-
-
-
 
 class PropertyWithUsages {
   property: Property;
@@ -21,7 +17,7 @@ class PropertyWithUsages {
       console.error(usages)
     }
 
-    console.log(`total: ${usages.reduce((a, b) => a + b.avg_per_day_ltr_num, 0)}/${usages.length} ${usages.map((u) => `${u.avg_per_day_ltr_num}`)}`)
+   //  console.log(`total: ${usages.reduce((a, b) => a + b.avg_per_day_ltr_num, 0)}/${usages.length} ${usages.map((u) => `${u.avg_per_day_ltr_num}`)}`)
     this.averageUsage = usages.reduce((a, b) => a + b.avg_per_day_ltr_num, 0) / usages.length
   }
 }

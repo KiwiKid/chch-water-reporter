@@ -1,9 +1,3 @@
-import getColor from "./lib/getColor"
-
-
-const COLOR_RANGE_BOTTOM = 300
-const COLOR_RANGE_TOP = 2000
-
 type UsageProps = {
   property_id:string
   date_for:string
