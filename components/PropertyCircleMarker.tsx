@@ -1,5 +1,5 @@
-import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popup } from "react-leaflet";
-import { useMemo } from "react";
+import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popup, useMapEvents } from "react-leaflet";
+import { useEffect, useMemo, useState } from "react";
 import getColorClass from "./lib/getColor";
 
 type PropertyCircleMarkerProps = {
@@ -7,10 +7,26 @@ type PropertyCircleMarkerProps = {
 }
 
 export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
+  
+  const [circleSize, setCircleSize] = useState(5);
+
+  const getCircleSize = (p:PropertyWithUsages) => {
+    return p.averageUsage*0.0005*mapEvents.getZoom()
+  }
+
+  const mapEvents = useMapEvents({
+      zoomend: () => {
+        setCircleSize(getCircleSize(p))
+      },
+  });
+
+  useEffect(() => {
+    setCircleSize(getCircleSize(p))
+  }, [p.averageUsage])
 
   const propertyColor =  useMemo(() => getColorClass(p.averageUsage), [p.averageUsage])
 
-  return (<CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.colorClass} radius={5} key={p.property.id} center={p.property.point}>
+  return (<CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}>
               <Popup>
                 <div className={propertyColor.colorClass}>
                   Total Property Average: {p.averageUsage.toFixed(2)}
