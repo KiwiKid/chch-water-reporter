@@ -25,17 +25,22 @@ export default function MyMapContainer({}:MyMapContainerProps) {
 
   return <>
   <style>{`
+        .leaflet-popup-content {
+          font-size: 1.5em;
+        }
           .low-level {
             background-color: #EBF4FA
           } 
           .med-level {
-            background-color: #B7CEEC
+            background-color: #B7CEEC;
           }
           .high-level {
-            background-color: #659EC7
+            background-color: #659EC7;
+            color: white;
           }
           .vhigh-level {
-            background-color: #0909FF
+            background-color: #0909FF;
+            color: white;
           }
           `}
         </style>

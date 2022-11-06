@@ -29,19 +29,16 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   return (
     <CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}>
-      <Popup minWidth={500}>
-        <h1>
-          ~{p.averageUsage.toFixed(0)} litres per day
-        </h1>
+      <Popup>
+        <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
+          ~{p.averageUsage.toFixed(0)} ltr per day
+        </h3>
         <table> 
           <thead>
             <tr style={{fontStyle: 'bold'}}>
-              <th>date_for</th>
-              <th>avg_per_day_ltr</th>
-              <th>level</th>
-              <th>days_for</th>
-              <th>colorClass</th>
-              <th>avg_per_day_ltr_num</th> 
+              <th>From</th>
+              <th>For (days)</th>
+              <th>Used per day</th>
             </tr>
           </thead>
           <tbody>
@@ -50,11 +47,8 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
             return(
               <tr key={u.id} className={usageColor.colorClass}>
                 <td>{u.date_for}</td>
-                <td>{u.avg_per_day_ltr}</td>
-                <td>{u.level}</td>
-                <td>{u.days_for}</td>
-                <td>{usageColor.colorClass}</td>
-                <td>{u.avg_per_day_ltr_num}</td>
+                <td style={{textAlign: 'right'}}>{u.days_for}</td>
+                <td style={{textAlign: 'right'}}>{u.avg_per_day_ltr}</td>               
               </tr>
               )
             })}
