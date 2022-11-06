@@ -29,10 +29,10 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   return (
     <CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}>
-      <Popup>
-        <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
+      {p && <Popup>
+        {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
           ~{p.averageUsage.toFixed(0)} ltr per day
-        </h3>
+        </h3>}
         <table> 
           <thead>
             <tr style={{fontStyle: 'bold'}}>
@@ -54,6 +54,6 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
             })}
           </tbody>
         </table>
-      </Popup>
+      </Popup>}
   </CircleMarker>)
 }
