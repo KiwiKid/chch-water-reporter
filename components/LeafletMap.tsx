@@ -33,7 +33,7 @@ export default function LeafletMap({}:LeafletMapProps) {
         width: 100wh;
     `}</style>
       {width && height && <div style={{ "height": `${height}px`, "width": `${width}px`}}>
-          <MapContainer center={[-43.530975, 172.637780]} zoom={startZoom}>
+          <MapContainer preferCanvas={true} center={[-43.530975, 172.637780]} zoom={startZoom}>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

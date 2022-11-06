@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo } from "react";
 import getColor from "./lib/getColor";
 import { useProperties } from "./lib/useProperties";
@@ -44,24 +45,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
     {status === 'fetched' && properties.length && properties.map((p) => {
       
       return (p.property.point && <>
-        <style>{`
-          .low-level{
-            backgroundColor: green
-          }
-          .med-level{
-            backgroundColor: light-blue
-            color: white;
-          }
-          .high-level{
-            backgroundColor: red;
-            color: white;
-          }
-          .vhigh-level{
-            backgroundColor: black
-            color: white;
-          }
-          `}
-        </style>
+        
         {
           <PropertyCircleMarker p={p}/>
        }

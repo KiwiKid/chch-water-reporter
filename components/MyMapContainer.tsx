@@ -15,12 +15,30 @@ const LeafletMap = dynamic(import('./LeafletMap'), {
 
 export default function MyMapContainer({}:MyMapContainerProps) {
 
+
+
   const [isClient, setIsClient] = useState<boolean>(false)
 
     useEffect(() => {
         setIsClient(typeof window !== 'undefined')
     })
 
-  return <>{isClient && <LeafletMap />}</>
+  return <>
+  <style>{`
+          .low-level {
+            background-color: #EBF4FA
+          } 
+          .med-level {
+            background-color: #B7CEEC
+          }
+          .high-level {
+            background-color: #659EC7
+          }
+          .vhigh-level {
+            background-color: #0909FF
+          }
+          `}
+        </style>
+  {isClient && <LeafletMap />}</>
 
 }
