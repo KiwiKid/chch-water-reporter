@@ -39,17 +39,22 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
           <thead>
             <tr style={{fontStyle: 'bold'}}>
               <th>From</th>
-              <th>For (days)</th>
-              <th>Used per day</th>
+              <th>For</th>
+              <th>lts per day</th>
             </tr>
           </thead>
           <tbody>
-            {p.usages.map((u) => {
+            {p.usages.sort((a,b) => {
+              const dateA = new Date(a.date_for)
+              const dateB = new Date(b.date_for)
+              if(dateA === dateB) return 0 
+              return dateA > dateB ? 1 : -1;
+            }).map((u) => {
               const usageColor = useMemo(() => getColorClass(u.avg_per_day_ltr_num), [u.avg_per_day_ltr_num])
             return(
-              <tr key={u.id} className={usageColor.colorClass}>
+              <tr key={u.id} className={usageColor.colorClass} style={{padding: '10px'}}>
                 <td>{u.date_for}</td>
-                <td style={{textAlign: 'right'}}>{u.days_for}</td>
+                <td style={{textAlign: 'right'}}>{u.days_for} days</td>
                 <td style={{textAlign: 'right'}}>{u.avg_per_day_ltr}</td>               
               </tr>
               )
