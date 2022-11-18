@@ -60,7 +60,11 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
               )
             })}
           </tbody>
+          
         </table>
+        {process.env.REACT_APP_DEBUG === 'true' && <pre>
+          {JSON.stringify(p.usages, null ,4)}
+          </pre>}
       </Popup>}
   </CircleMarker>)
 }

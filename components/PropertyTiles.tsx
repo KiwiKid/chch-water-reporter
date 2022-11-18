@@ -44,8 +44,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
     {status === 'idle' && <>waiting</>}
     {status === 'fetched' && properties.length && properties.map((p) => {
       
-      return (p.property.point && <>
-        
+      return (p.property.point && p.usages.length > 0 && <>
         {
           <PropertyCircleMarker p={p}/>
        }

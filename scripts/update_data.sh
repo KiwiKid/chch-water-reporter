@@ -1,6 +1,8 @@
 #!/bin/bash
 # (need permissions?) - run: chmod ug+x update-data.sh
 
+# Note: This script relies on an API served by this project (it needs to be running)
+
 # https://stackoverflow.com/a/20434740 (get the current directory)
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
