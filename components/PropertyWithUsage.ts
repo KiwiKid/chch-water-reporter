@@ -1,5 +1,6 @@
 import Property from "./Property";
 import Usage from "./Usage";
+import groupBy  from 'lodash/groupBy'
 
 class PropertyWithUsages {
   property: Property;
@@ -9,7 +10,9 @@ class PropertyWithUsages {
   
   constructor(property: Property, usages: Usage[]) {
     this.property = property;
-    this.usages = usages;
+    // Remove any duplcates that go through
+    const singleUsages = groupBy(usages, (u) => `${u.property_id} ${u.status}`)
+    this.usages = Object.keys(singleUsages).map((key) => singleUsages[key][0])
 
     if(usages.length == 0){
       console.error(`Usage has length of 0 ================ `)
