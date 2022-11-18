@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import MapContainer from '../components/MyMapContainer'
-
+import { Analytics } from '@vercel/analytics/react';
 
 const Home: NextPage = () => {
 
@@ -18,6 +18,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div>
           <MapContainer/>
+          <Analytics/>
         </div>
         </main>
 

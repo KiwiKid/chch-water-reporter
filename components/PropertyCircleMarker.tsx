@@ -11,8 +11,10 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   
   const [circleSize, setCircleSize] = useState(5);
 
+  const MIN_CIRCLE_SIZE = 800;
+  const MAX_CIRCLE_SIZE = 10000;
   const getCircleSize = (p:PropertyWithUsages) => {
-    return p.averageUsage*0.0005*mapEvents.getZoom()
+    return Math.min(Math.max(p.averageUsage, MIN_CIRCLE_SIZE), MAX_CIRCLE_SIZE)*0.0003*mapEvents.getZoom()
   }
 
   const mapEvents = useMapEvents({
