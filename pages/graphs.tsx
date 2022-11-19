@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import MapContainer from '../components/MyMapContainer'
 import { Analytics } from '@vercel/analytics/react';
 import Graphs from '../components/Graphs'
+import ByAmountUsed from '../components/ByAmountUsed'
 
 const Home: NextPage = () => {
 
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
       <main >
         <div>
           <Graphs/>
+          <ByAmountUsed/>
           <Analytics/>
         </div>
         </main>
