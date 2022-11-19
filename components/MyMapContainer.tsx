@@ -15,9 +15,6 @@ const LeafletMap = dynamic(import('./LeafletMap'), {
 })
 
 export default function MyMapContainer({}:MyMapContainerProps) {
-
-
-
   const [isClient, setIsClient] = useState<boolean>(false)
 
     useEffect(() => {
