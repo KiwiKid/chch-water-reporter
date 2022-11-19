@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react";
+import About from "./About";
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type MyMapContainerProps = {
@@ -44,6 +45,8 @@ export default function MyMapContainer({}:MyMapContainerProps) {
           }
           `}
         </style>
-  {isClient && <LeafletMap />}</>
+  {isClient && <><LeafletMap />
+  {/*<About/>*/}
+  </>}</>
 
 }
