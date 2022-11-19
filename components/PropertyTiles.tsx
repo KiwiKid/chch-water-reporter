@@ -40,8 +40,8 @@ export default function PropertyTiles({}:PropertyTilesProps) {
 
 
   return <>
-    {status === 'fetching' && <>loading</>}
-    {status === 'idle' && <>waiting</>}
+    {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+    {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'fetched' && properties.length && properties.map((p) => {
       
       return (p.property.point && p.usages.length > 0 && <>

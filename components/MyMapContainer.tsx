@@ -10,7 +10,7 @@ type MyMapContainerProps = {
 const LeafletMap = dynamic(import('./LeafletMap'), {
   ssr: false,
   loading: () => (
-    <div>Loading...</div>
+    <div style={{textAlign: 'center', width: '100%'}}><h1>Loading (this should take ~10 seconds)...</h1></div>
   )
 })
 
