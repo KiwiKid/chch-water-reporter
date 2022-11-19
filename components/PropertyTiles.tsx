@@ -1,5 +1,8 @@
+import { LeafletEvent } from "leaflet";
+import _ from "lodash";
 import React from "react";
 import { useMemo } from "react";
+import { FeatureGroup, LayerGroup, LayersControl, useMap, useMapEvent } from "react-leaflet";
 import getColor from "./lib/getColor";
 import { useProperties } from "./lib/useProperties";
 import PropertyCircleMarker from "./PropertyCircleMarker";
@@ -12,47 +15,25 @@ type PropertyTilesProps = {
 }
 
 export default function PropertyTiles({}:PropertyTilesProps) {
-  const { status, properties } = useProperties();
-  //const map = useMap();
-
- /* useEffect(() => {
-    
-      L.geoJSON<L.Point>().addTo(map)
-      console.log(`added: ${JSON.stringify(p.property.geoJSON)}`)
-      return (
-        <>fetched</>
-      )
-    })
-  }, [map, status, properties])
-
-
-     
-{status === 'fetched' && properties && properties.map((p) => {
-      const geoJSON = p.property.geoJSON
-      return ( <CircleMarker key={p.property.id} center={}/>) 
-
-    })}
-  */
-
-   //  const latLng = 
-
-  
-
+  const { status, groupedProperties, properties, groupingAmount } = useProperties({exculdeZeroUsage: true});
 
   return <>
     {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
-    {status === 'fetched' && properties.length && properties.map((p) => {
-      
-      return (p.property.point && p.usages.length > 0 && <>
-        {
-          <PropertyCircleMarker p={p}/>
-       }
-
-      </>)
-    } )}
-
+    {status === 'fetched' && !!groupedProperties && <LayersControl position="topright">
+      {Object.keys(groupedProperties).sort((a:string, b:string) =>{
+        return a.substring(1) > b.substring(1) ? 1 : -1
+      }).map((pKey) => {
+        return (
+          <LayersControl.Overlay checked name={`${pKey}`}>
+            <FeatureGroup>
+              {groupedProperties[pKey]
+                .filter((p) => p.property.point && p.usages.length > 0)
+                .map((p) => (<PropertyCircleMarker p={p}/>))}
+            </FeatureGroup>
+          </LayersControl.Overlay>)
+      })}
+      </LayersControl>}
   </>
-   
-
 }
+
