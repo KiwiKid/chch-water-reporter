@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         </link>
       </Head>
 
-      <main className={styles.main}>
+      <main >
         <div>
           <MapContainer/>
           <Analytics/>

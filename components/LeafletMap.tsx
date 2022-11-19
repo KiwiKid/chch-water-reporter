@@ -29,8 +29,8 @@ export default function LeafletMap({}:LeafletMapProps) {
   return <>
     <style>{`
       .leaflet-container{
-        height: 95vh;
-        width: 100wh;
+        height: 99vh;
+        width: 101wh;
     `}</style>
       {width && height && <div style={{ "height": `${height}px`, "width": `${width}px`}}>
           <MapContainer preferCanvas={true} center={[-43.530975, 172.637780]} zoom={startZoom}>

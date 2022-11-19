@@ -45,8 +45,7 @@ export default function MyMapContainer({}:MyMapContainerProps) {
           }
           `}
         </style>
-  {isClient && <><LeafletMap />
-  {/*<About/>*/}
-  </>}</>
+  {isClient && <LeafletMap />
+  }</>
 
 }
