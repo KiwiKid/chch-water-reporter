@@ -19,7 +19,6 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   const getCircleSize = (p:PropertyWithUsages) => {
   let scaleFactor = 0.000
   let zoom = mapEvents.getZoom()
-  // (hacky prevent lots of recalc when the zoom changes)
     if(zoom === 18){
       scaleFactor = 0.0014
     }else if(zoom >= 16){
@@ -39,6 +38,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   }
 
   useEffect(() => {
+    // hacky check to prevent lots of recalc when the zoom changes
     if(!zoomTracker || zoom != zoomTracker){
       setZoomTracker(zoomTracker)
       setCircleSize(getCircleSize(p))
@@ -52,10 +52,6 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
         }
       },
   });
-
- /* useEffect(() => {
-    setCircleSize(getCircleSize(p))
-  }, [p.averageUsage])*/
 
   let zoom = mapEvents.getZoom()
   return (
