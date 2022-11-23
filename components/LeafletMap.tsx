@@ -2,13 +2,10 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import PropertyTiles from '../components/PropertyTiles'
 import useWindowSize from './lib/useWindowSize';
-import Controls from './Controls';
-
-
 
 type LeafletMapProps = {
-}
 
+}
 
 export default function LeafletMap({}:LeafletMapProps) {
  const startZoom = 13
@@ -25,7 +22,6 @@ return <>
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <PropertyTiles />
-          <Controls/>
         </MapContainer>
     </div>}
   </>

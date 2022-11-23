@@ -25,7 +25,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
         return a.substring(1) > b.substring(1) ? 1 : -1
       }).map((pKey) => {
         return (
-          <LayersControl.Overlay checked name={`${pKey}`}>
+          <LayersControl.Overlay checked name={`${pKey} [${groupedProperties[pKey].length} properties - ${((groupedProperties[pKey].length/properties.length)*100).toFixed(0)}%]`}>
             <FeatureGroup>
               {groupedProperties[pKey]
                 .filter((p) => p.property.point && p.usages.length > 0)
