@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import MapContainer from '../components/MyMapContainer'
 import { Analytics } from '@vercel/analytics/react';
 import Graphs from '../components/Graphs'
 import ByAmountUsed from '../components/ByAmountUsed'

@@ -6,7 +6,7 @@ import { CartesianGrid, Label, YAxis, XAxis, ReferenceLine, Line, Bar, Responsiv
 import useWindowSize from "./lib/useWindowSize";
 
 export default function ByAmountUsed() {
-  const { status, properties } = useProperties();
+  const { status, properties } = useProperties({ exculdeZeroUsage: true});
     const [propertyGroups, setPropertyGroups] = useState<Dictionary<PropertyWithUsages[]>>()
     const [data, setData] = useState<unknown[]>()
 
