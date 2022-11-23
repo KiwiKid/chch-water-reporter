@@ -5,7 +5,11 @@ import PropertyWithUsages from "./PropertyWithUsage";
 import { CartesianGrid, Label, YAxis, XAxis, ReferenceLine, Line, Bar, ResponsiveContainer, BarChart } from 'recharts'
 import useWindowSize from "./lib/useWindowSize";
 
-export default function ByHousehold() {
+interface ByHouseholdProps {
+  markerLine?:number
+}
+
+export default function ByHousehold({markerLine}:ByHouseholdProps) {
   const { status, properties } = useProperties({ exculdeZeroUsage: true});
     const [propertyGroups, setPropertyGroups] = useState<Dictionary<PropertyWithUsages[]>>()
     const [data, setData] = useState<unknown[]>()
@@ -57,9 +61,10 @@ export default function ByHousehold() {
             <Label value={`Avg Litres used (in hundreds of ltrs)\n`} position="outside" />
           </XAxis>
           <Bar dataKey="lengthOfEntries" stackId="a" fill="#8884d8" />
-          <ReferenceLine x={9} stroke="black" isFront={true} strokeDasharray="3 3" >
-            <Label width={100}>Charges apply (more than 900 ltrs)</Label>
-          </ReferenceLine>
+          <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
+          {markerLine && <ReferenceLine x={(markerLine/100).toFixed(0)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" >
+            <Label width={100}>You are HERE</Label>
+          </ReferenceLine>}
         </BarChart>
         {/*<pre>{Object.keys(propertyGroups).filter((pg) => pg !== '0').map(pgk => `group: ${pgk} size: ${propertyGroups[pgk].length} ${JSON.stringify(propertyGroups[pgk], null, 4) }}}`)}</pre>*/}
         {/*<pre>

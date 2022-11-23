@@ -6,6 +6,8 @@ class PropertyWithUsageGenerator {
   allProperties:Property[]
   allUsages:Usage[]
 
+  allPropertiesWithUsages?:PropertyWithUsages[];
+
   constructor(allProperties: Property[], allUsages: Usage[]) {
     this.allProperties = allProperties;
     this.allUsages = allUsages;
@@ -13,8 +15,17 @@ class PropertyWithUsageGenerator {
 
   getPropertyUsages = ():PropertyWithUsages[] => {
     return this.allProperties.map((p) => {
-      return new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
+
+      
+      const propertyWithUsage = new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
+
+      propertyWithUsage.numberGreaterThan = this.getPropertyMedian(propertyWithUsage.averageUsage)
+      return propertyWithUsage;
     })
+  }
+
+  getPropertyMedian = (usage:number):number => {
+    return this.allPropertiesWithUsages ? this.allPropertiesWithUsages.filter((ap) => ap.averageUsage < usage).length : 0
   }
 }
 

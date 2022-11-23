@@ -1,3 +1,5 @@
+import getColorClass, { StyleData } from "./lib/getColor"
+
 type UsageProps = {
   property_id:string
   date_for:string
@@ -21,6 +23,7 @@ class Usage {
   comments:string
   status:string
   id:number
+  styleData?:StyleData
   
   constructor({property_id ,date_for ,days_for ,avg_per_day_ltr ,avg_per_day_price ,level ,comments ,status ,id}: UsageProps) {
     this.property_id = property_id;
@@ -39,8 +42,16 @@ class Usage {
     this.comments = comments;
     this.status = status;
     this.id = id;
-
+    this.styleData = getColorClass(this.avg_per_day_ltr_num)
    }
+}
+
+
+export const byDateFor = (a:Usage,b:Usage) => {
+  const dateA = new Date(a.date_for)
+  const dateB = new Date(b.date_for)
+  if(dateA === dateB) return 0 
+  return dateA > dateB ? 1 : -1;
 }
 
 export default Usage

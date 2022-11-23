@@ -29,8 +29,8 @@ export default async function handler(
 
   const propertiesToReturn = propsWithUsage.filter((p) => p.usages.length !== 0)
 
-  const chargesApply = _.groupBy(propertiesToReturn, (p) => p.averageUsage > 900 ? 'charges_apply' : 'no_charge')
+  // const chargesApply = _.groupBy(propertiesToReturn, (p) => p.averageUsage > 900 ? 'charges_apply' : 'no_charge')
 
-  console.log(`charges apply: ${chargesApply.charges_apply?.length} \nno charge(${chargesApply.no_charge?.length}) \n${chargesApply.charges_apply.length / propsWithUsage.length}`)
+  // console.log(`charges apply: ${chargesApply.charges_apply?.length} \nno charge(${chargesApply.no_charge?.length}) \n${chargesApply.charges_apply.length / propsWithUsage.length}`)
   res.status(200).json(propertiesToReturn)
 }

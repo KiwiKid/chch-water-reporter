@@ -2,6 +2,7 @@ import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popu
 import { useEffect, useMemo, useState } from "react";
 import getColorClass from "./lib/getColor";
 import React from "react";
+import { byDateFor } from "./Usage";
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -9,71 +10,74 @@ type PropertyCircleMarkerProps = {
 
 export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   
-  const [circleSize, setCircleSize] = useState(5);
-  const MIN_CIRCLE_SIZE = 1000;
-  const MAX_CIRCLE_SIZE = 10000;
+  const [circleSize, setCircleSize] = useState(0);
+
+  const [zoomTracker, setZoomTracker] = useState(null)
+
+  const MIN_CIRCLE_SIZE = 0;
+  const MAX_CIRCLE_SIZE = 5000;
   const getCircleSize = (p:PropertyWithUsages) => {
     let scaleFactor = 0.000
     let zoom = mapEvents.getZoom()
-    if(zoom === 18){
-      scaleFactor = 0.0008
-    }else if(zoom >= 16){
-      scaleFactor = 0.0007
-    }else if(zoom >= 14){
-      scaleFactor = 0.0005
-    }else if(zoom >= 10){
-      scaleFactor = 0.0004
-    }else if(zoom >= 8){ 
-      scaleFactor = 0.0005
-    }else if(zoom >= 6){
-      scaleFactor = 0.0007
-    }else{
-      scaleFactor = 0.0001
+    // (hacky prevent lots of recalc when the zoom changes)
+    if(!zoomTracker || zoom != zoomTracker){
+      setZoomTracker(zoomTracker)
+      if(zoom === 18){
+        scaleFactor = 0.0014
+      }else if(zoom >= 16){
+        scaleFactor = 0.0012
+      }else if(zoom >= 14){
+        scaleFactor = 0.0010
+      }else if(zoom >= 10){
+        scaleFactor = 0.0008
+      }else if(zoom >= 8){ 
+        scaleFactor = 0.0005
+      }else if(zoom >= 6){
+        scaleFactor = 0.0007
+      }else{
+        scaleFactor = 0.0001
+      }
+      return Math.min(Math.max((p.averageUsage/2), MIN_CIRCLE_SIZE), MAX_CIRCLE_SIZE)*(scaleFactor*zoom)
     }
-    return Math.min(Math.max(p.averageUsage, MIN_CIRCLE_SIZE), MAX_CIRCLE_SIZE)*(scaleFactor*zoom)
   }
 
+  useEffect(() => {
+    setCircleSize(getCircleSize(p))
+  }, [])
+  
   const mapEvents = useMapEvents({
       zoomend: () => {
         setCircleSize(getCircleSize(p))
       },
   });
 
-  useEffect(() => {
+ /* useEffect(() => {
     setCircleSize(getCircleSize(p))
-  }, [p.averageUsage])
-
-  const propertyColor =  useMemo(() => getColorClass(p.averageUsage), [p.averageUsage])
+  }, [p.averageUsage])*/
 
   let zoom = mapEvents.getZoom()
   return (
-    <CircleMarker pathOptions={{color: propertyColor.colorCode }} className={propertyColor.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}>
-     
+    <CircleMarker pathOptions={{color: p.styleData.colorCode }} className={p.styleData.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}> 
       {p && <Popup>
         {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
-          ~{p.averageUsage.toFixed(0)} ltr per day
+          <div style={{textAlign: 'center'}}>~{p.averageUsage.toFixed(0)} Ltr per day</div>
+          <div style={{fontSize: '0.8rem', textAlign: 'center'}}><a href={`/how-does-it-compare?avg=${p.averageUsage}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a></div>
         </h3>}
         <table> 
           <thead>
             <tr style={{fontStyle: 'bold'}}>
               <th>From</th>
               <th>For</th>
-              <th>lts per day</th>
+              <th>Per day</th>
             </tr>
           </thead>
           <tbody>
-            {p.usages.sort((a,b) => {
-              const dateA = new Date(a.date_for)
-              const dateB = new Date(b.date_for)
-              if(dateA === dateB) return 0 
-              return dateA > dateB ? 1 : -1;
-            }).map((u) => {
-              const usageColor = useMemo(() => getColorClass(u.avg_per_day_ltr_num), [u.avg_per_day_ltr_num])
+            {p.usages.sort(byDateFor).map((u) => {
             return(
-              <tr key={u.id} className={usageColor.colorClass} style={{padding: '10px'}}>
+              <tr key={u.id} className={u.styleData?.colorClass} style={{padding: '10px'}}>
                 <td>{u.date_for}</td>
                 <td style={{textAlign: 'right'}}>{u.days_for} days</td>
-                <td style={{textAlign: 'right'}}>{u.avg_per_day_ltr}</td>               
+                <td style={{textAlign: 'right'}}>{u.avg_per_day_ltr}tr</td>               
               </tr>
               )
             })}

@@ -11,7 +11,7 @@ const colorMap:StyleData[] = [
   {colorClass: 'vhigh-level', colorCode: '#0909FF', min: 2000, max: 9999999},
 ]
 
-type StyleData = {
+export type StyleData = {
   colorClass: 'low-level'|'med-level'|'high-level'|'vhigh-level'
   colorCode: string
   min: number

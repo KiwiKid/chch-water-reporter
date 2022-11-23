@@ -17,9 +17,9 @@ return <>
       width: 101wh;
     }
 
-    .leaflet-control-layers leaflet-control {
-      transform: scale(2);
-      transform-origin:top right;
+    .leaflet-control {
+      
+      font-size: 2rem;
     }
 
   `}</style><></>

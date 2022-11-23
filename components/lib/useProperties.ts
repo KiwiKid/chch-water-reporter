@@ -80,12 +80,27 @@ const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
     useEffect(() => {
         const groupingAmount = 500;
         setGroupedProperties(_.groupBy(properties, (p) => {
-            if(p.averageUsage < 1000){ 
-                const groupNumber:number = +(p.averageUsage / groupingAmount).toFixed(0)
-                return `${(groupNumber*groupingAmount).toString()} ltr to ${((groupNumber+1)*groupingAmount).toString()} ltrs`
-            }else{
-                return 'over 1000'
+            switch(p.styleData.colorClass){
+                case 'low-level':{
+                    return `1LOW (0-500 Lts)`
+                }
+                case 'med-level':{
+                    return `2MED (500-700 Lts)`
+                }
+                case 'high-level':{
+                    return `3HIGH (700-2000 Lts)`
+                }
+                case 'vhigh-level':{
+                    return `4V-HIGH (2000+ Lts)`
+                }
             }
+
+            /*if(p.averageUsage < 1000){ 
+                const groupNumber:number = +(p.averageUsage / groupingAmount).toFixed(0)
+                return `${(groupNumber*groupingAmount).toString()}-${((groupNumber+1)*groupingAmount).toString()} Ltr`
+            }else{
+                return '>1000 Ltr'
+            }*/
         }))
         setGroupingAmount(groupingAmount)
     }, [properties])

@@ -5,7 +5,11 @@ import PropertyWithUsages from "./PropertyWithUsage";
 import { CartesianGrid, Label, YAxis, XAxis, ReferenceLine, Line, Bar, ResponsiveContainer, BarChart } from 'recharts'
 import useWindowSize from "./lib/useWindowSize";
 
-export default function ByAmountUsed() {
+interface ByAmountUsedProps {
+  markerLine?:number
+}
+
+export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
   const { status, properties } = useProperties({ exculdeZeroUsage: true});
     const [propertyGroups, setPropertyGroups] = useState<Dictionary<PropertyWithUsages[]>>()
     const [data, setData] = useState<unknown[]>()
@@ -39,13 +43,13 @@ export default function ByAmountUsed() {
   //const data_eg = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
 
   return (<>
-  <div style={{textAlign: 'center'}}><h1>total litres used (y) vs avg hundreds of litres(x)</h1></div>
+  <div style={{textAlign: 'center'}}><h1>total litres used </h1><h2>(y)total litres uses vs (x) avg litres( in X000s Ltrs)</h2></div>
     {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <BarChart
-          width={windowSize.width || 0}
-          height={windowSize.height || 0}
+          width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
+          height={!!windowSize && windowSize.height ? windowSize.height*0.95 : 0}
           data={data}
           margin={{
             top: 20,
@@ -58,12 +62,14 @@ export default function ByAmountUsed() {
           <XAxis dataKey="name" >
             <Label position="outside" value="Avg Litres used (in hundreds)" />
           </XAxis>
+          
           <Bar dataKey="totalAvgLtrs" stackId="a" fill="#8884d8" />
-          <ReferenceLine x={9} stroke="black" isFront={true} strokeDasharray="3 3" >
-            <Label width={100}>Charges apply (more than 900 ltrs)</Label>
-          </ReferenceLine>
+          <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
+          {markerLine && <ReferenceLine style={{fontSize: '2rem'}} x={(markerLine/100).toFixed(0)} stroke="black" isFront={true} strokeDasharray="6 6" >
+            <Label width={100}>You are HERE</Label>
+          </ReferenceLine>}
           <YAxis padding={{top: 10}}>
-            <Label angle={270} position="outside" value="total ltrs used by each group (in ltrs)"/>
+            <Label angle={270} position="outside" value="total Ltrs used by each group"/>
           </YAxis>
       </BarChart>
         {/*<pre>{Object.keys(propertyGroups).filter((pg) => pg !== '0').map(pgk => `group: ${pgk} size: ${propertyGroups[pgk].length} ${JSON.stringify(propertyGroups[pgk], null, 4) }}}`)}</pre>*/}

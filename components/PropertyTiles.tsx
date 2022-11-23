@@ -15,21 +15,24 @@ type PropertyTilesProps = {
 }
 
 export default function PropertyTiles({}:PropertyTilesProps) {
-  const { status, groupedProperties, properties, groupingAmount } = useProperties({exculdeZeroUsage: true});
+  const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
 
   return <>
-    {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
-    {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+    {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+    {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'fetched' && !!groupedProperties && <LayersControl position="topright">
-      {Object.keys(groupedProperties).sort((a:string, b:string) =>{
-        return a.substring(1) > b.substring(1) ? 1 : -1
+      {Object.keys(groupedProperties).sort((a:string, b:string) => {
+        const startingCharA = parseInt(a.substring(0, 1))
+        const startingCharB = parseInt(b.substring(0, 1))
+        if(startingCharA == startingCharB) return 0
+        return startingCharA > startingCharB ? 1 : -1
       }).map((pKey) => {
         return (
-          <LayersControl.Overlay checked name={`${pKey} [${((groupedProperties[pKey].length/properties.length)*100).toFixed(0)}% - ${groupedProperties[pKey].length}/${properties.length} properties]`}>
+          <LayersControl.Overlay checked key={pKey} name={`${pKey.substring(1, pKey.length)} [${((groupedProperties[pKey].length/properties.length)*100).toFixed(0)}%] (${groupedProperties[pKey].length}/${properties.length})`}>
             <FeatureGroup>
               {groupedProperties[pKey]
                 .filter((p) => p.property.point && p.usages.length > 0)
-                .map((p) => (<PropertyCircleMarker p={p}/>))}
+                .map((p) => (<PropertyCircleMarker key={p.property.id} p={p}/>))}
             </FeatureGroup>
           </LayersControl.Overlay>)
       })}
