@@ -19,7 +19,7 @@ return <>
 
     .leaflet-control {
       
-      font-size: 2rem;
+      font-size: 1.6rem;
     }
 
   `}</style><></>

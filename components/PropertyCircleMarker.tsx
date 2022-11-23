@@ -59,7 +59,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
       {p && <Popup>
         {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
           <div style={{textAlign: 'center'}}>~{p.averageUsage.toFixed(0)} Ltr per day</div>
-          <div style={{fontSize: '0.8rem', textAlign: 'center'}}><a href={`/how-does-it-compare?avg=${p.averageUsage}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a></div>
+          <div style={{fontSize: '0.8rem', textAlign: 'center'}}><a href={`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a></div>
         </h3>}
         <table> 
           <thead>

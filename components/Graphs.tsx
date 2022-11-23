@@ -38,10 +38,10 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
   //const data_eg = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
 
   return (<>
-  <div style={{textAlign: 'center'}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
-    {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
-    {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
-    {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
+    <div style={{textAlign: 'center'}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
+      {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+      {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+      {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <BarChart
           width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
           height={!!windowSize && windowSize.height ? windowSize.height*0.95 : 0}
@@ -61,30 +61,11 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
             <Label value={`Avg Litres used (in hundreds of ltrs)\n`} position="outside" />
           </XAxis>
           <Bar dataKey="lengthOfEntries" stackId="a" fill="#8884d8" />
-          <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
-          {markerLine && <ReferenceLine x={(markerLine/100).toFixed(0)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" >
-            <Label width={100}>You are HERE</Label>
-          </ReferenceLine>}
+          <ReferenceLine x={9}  stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
+          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
         </BarChart>
-        {/*<pre>{Object.keys(propertyGroups).filter((pg) => pg !== '0').map(pgk => `group: ${pgk} size: ${propertyGroups[pgk].length} ${JSON.stringify(propertyGroups[pgk], null, 4) }}}`)}</pre>*/}
-        {/*<pre>
-          
-          {JSON.stringify(propertyGroups, null, 4)}
-    {Object.keys(propertyGroups).map((pgk) => {
-        return (<><div key={`${pgk}`}>{propertyGroups[pgk].map((p) => <div key={`${pgk} ${p.averageUsage} ${p.property.id}`}>{pgk} {p.averageUsage}</div>)}
-
-            </div>
-</>            )
-
-        })}
-      </pre>*/}
-
-
-        
-        
-        </div>}
-        {status}{properties.length}|{propertyGroups ? Object.keys(propertyGroups) : 'NA Groups'}
-  </>)
+      </div>}
+    </>)
    
 
 }

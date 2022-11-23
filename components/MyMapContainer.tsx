@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import React from "react";
 import { useEffect, useState } from "react";
 import About from "./About";
 //import { LatLng } from 'leaflet'

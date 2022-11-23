@@ -65,9 +65,7 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
           
           <Bar dataKey="totalAvgLtrs" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
-          {markerLine && <ReferenceLine style={{fontSize: '2rem'}} x={(markerLine/100).toFixed(0)} stroke="black" isFront={true} strokeDasharray="6 6" >
-            <Label width={100}>You are HERE</Label>
-          </ReferenceLine>}
+          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <YAxis padding={{top: 10}}>
             <Label angle={270} position="outside" value="total Ltrs used by each group"/>
           </YAxis>
