@@ -12,9 +12,16 @@ export default function LeafletMap({}:LeafletMapProps) {
  const {width, height} = useWindowSize()
 return <>
   <style>{`
-    .leaflet-container{
+    .leaflet-container {
       height: 99vh;
       width: 101wh;
+    }
+
+    .leaflet-control-layers leaflet-control {
+      transform: scale(2);
+      transform-origin:top right;
+    }
+
   `}</style><></>
     {width && height && <div style={{ "height": `${height}px`, "width": `${width}px`}}>
         <MapContainer preferCanvas={true} center={[-43.530975, 172.637780]} zoom={startZoom} ref={(ref) => { }}>
