@@ -18,8 +18,8 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
 
   return <>
-    {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
-    {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+    {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
+    {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
     {status === 'fetched' && !!groupedProperties && <LayersControl position="topright">
       {Object.keys(groupedProperties).sort((a:string, b:string) => {
         const startingCharA = parseInt(a.substring(0, 1))

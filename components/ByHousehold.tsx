@@ -39,7 +39,7 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
 
   return (<>
     <div style={{textAlign: 'center'}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
-      {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
+      {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
       {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <div>
           This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc)
