@@ -17,8 +17,8 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
 
   useEffect(() => {
     let newPropertyGroups = _.groupBy(properties, (p) => {
-        // 200 litre groups
-        return (p.averageUsage / 100).toFixed(0).toString()// ? 'charge' : 'no_charge'
+        // 100 litre groups
+        return (p.averageUsage / 100).toFixed(0).toString()
       })
       setPropertyGroups(newPropertyGroups)
 
@@ -42,7 +42,7 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
       {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><h1>Loading (this should take ~10 seconds)...</h1></div>}
       {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <div>
-          This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc) on the x-axis
+          This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc)
         </div>
         {markerLine ? <div>["You are HERE" show where the properties usage compares]</div> : null}
         <BarChart
@@ -65,7 +65,7 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
           </XAxis>
           <Bar dataKey="lengthOfEntries" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9}  stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
-          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
+          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 55)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <div>
           (Properties with a water usage greater than 7500 ltrs per day are excluded for clarity)
           </div>

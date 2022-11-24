@@ -18,7 +18,7 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
 
   useEffect(() => {
     let newPropertyGroups = _.groupBy(properties, (p) => {
-        // 200 litre groups
+        // 100 litre groups
         return (p.averageUsage / 100).toFixed(0).toString()// ? 'charge' : 'no_charge'
       })
       setPropertyGroups(newPropertyGroups)
@@ -43,7 +43,7 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
   //const data_eg = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
 
   return (<>
-  <div style={{textAlign: 'center'}}><h1>total litres used </h1><h2>(y)total litres uses vs (x) avg litres( in X000s Ltrs)</h2></div>
+  <div style={{textAlign: 'center'}}><h1>total litres used </h1><h2>total litres used (y) vs avg litres - in X000s Ltrs (x)</h2></div>
     {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take ~10 seconds)...</h1></div>}
     {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
@@ -60,14 +60,13 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" >
-            <Label position="outside" value="Avg Litres used (in hundreds)" />
+            <Label dy={20} position="outside" value="Avg Litres used (in hundreds)" />
           </XAxis>
-          
           <Bar dataKey="totalAvgLtrs" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
           {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <YAxis padding={{top: 10}}>
-            <Label angle={270} position="outside" value="Total Ltrs used"/>
+            <Label dx={-20} angle={270} position="outside" value="Total Ltrs used"/>
           </YAxis>
       </BarChart>
     </div>}
