@@ -25,10 +25,11 @@ export default function MyMapContainer({}:MyMapContainerProps) {
   return <>
   <style>{`
         .leaflet-popup-content {
-          font-size: 1.5em;
+          font-size: 1.3em;
         }
+
           .low-level {
-            background-color: #EBF4FA
+            background-color: #EBF4FA;
           } 
           .med-level {
             background-color: #B7CEEC;

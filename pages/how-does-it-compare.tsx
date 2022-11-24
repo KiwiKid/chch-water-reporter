@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { Analytics } from '@vercel/analytics/react';
-import Graphs from '../components/Graphs'
+import ByHousehold from '../components/ByHousehold'
 import ByAmountUsed from '../components/ByAmountUsed'
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -28,7 +28,7 @@ const WhereAmI: NextPage = () => {
       <main >
         <a style={{fontSize: '1.5rem', textDecoration: 'underline'}} href='/'>{`<<`} back to map</a>
         <div>
-          <Graphs markerLine={avgNum}/>
+          <ByHousehold markerLine={avgNum}/>
           <ByAmountUsed markerLine={avgNum}/>
           <Analytics/>
         </div>

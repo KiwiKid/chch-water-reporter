@@ -63,16 +63,16 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
         </h3>}
         <table> 
           <thead>
-            <tr style={{fontStyle: 'bold'}}>
+            <tr style={{fontStyle: 'bold', whiteSpace: 'nowrap'}}>
               <th>From</th>
               <th>For</th>
-              <th>Per day</th>
+              <th style={{}}>Per day Average</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{fontStyle: 'bold', whiteSpace: 'nowrap'}}>
             {p.usages.sort(byDateFor).map((u) => {
             return(
-              <tr key={u.id} className={u.styleData?.colorClass} style={{padding: '10px'}}>
+              <tr key={u.id} className={u.styleData?.colorClass} style={{ borderRadius: 10}}>
                 <td>{u.date_for}</td>
                 <td style={{textAlign: 'right'}}>{u.days_for} days</td>
                 <td style={{textAlign: 'right'}}>{u.avg_per_day_ltr}tr</td>               

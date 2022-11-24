@@ -49,7 +49,7 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
     {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <BarChart
           width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
-          height={!!windowSize && windowSize.height ? windowSize.height*0.95 : 0}
+          height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 600) : 0}
           data={data}
           margin={{
             top: 20,
@@ -67,27 +67,10 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
           <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
           {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <YAxis padding={{top: 10}}>
-            <Label angle={270} position="outside" value="total Ltrs used by each group"/>
+            <Label angle={270} position="outside" value="Total Ltrs used"/>
           </YAxis>
       </BarChart>
-        {/*<pre>{Object.keys(propertyGroups).filter((pg) => pg !== '0').map(pgk => `group: ${pgk} size: ${propertyGroups[pgk].length} ${JSON.stringify(propertyGroups[pgk], null, 4) }}}`)}</pre>*/}
-        {/*<pre>
-          
-          {JSON.stringify(propertyGroups, null, 4)}
-    {Object.keys(propertyGroups).map((pgk) => {
-        return (<><div key={`${pgk}`}>{propertyGroups[pgk].map((p) => <div key={`${pgk} ${p.averageUsage} ${p.property.id}`}>{pgk} {p.averageUsage}</div>)}
-
-            </div>
-</>            )
-
-        })}
-      </pre>*/}
-
-
-        
-        
-        </div>}
-        {status}{properties.length}|{propertyGroups ? Object.keys(propertyGroups) : 'NA Groups'}
+    </div>}
   </>)
    
 

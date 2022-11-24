@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { Analytics } from '@vercel/analytics/react';
-import Graphs from '../components/Graphs'
+import ByHousehold from '../components/ByHousehold'
 import ByAmountUsed from '../components/ByAmountUsed'
 
 const Home: NextPage = () => {
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
       <main >
         <div>
-          <Graphs/>
+          <ByHousehold/>
           <ByAmountUsed/>
           <Analytics/>
         </div>

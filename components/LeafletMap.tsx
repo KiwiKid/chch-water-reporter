@@ -21,7 +21,6 @@ return <>
       
       font-size: 1.6rem;
     }
-
   `}</style><></>
     {width && height && <div style={{ "height": `${height}px`, "width": `${width}px`}}>
         <MapContainer preferCanvas={true} center={[-43.530975, 172.637780]} zoom={startZoom} ref={(ref) => { }}>
