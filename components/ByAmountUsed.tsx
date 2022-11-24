@@ -60,13 +60,13 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" >
-            <Label dy={20} position="outside" value="Avg Litres used (in hundreds)" />
+            <Label dy={13} position="outside" value="Avg Litres used per day (in hundreds)" />
           </XAxis>
           <Bar dataKey="totalAvgLtrs" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
           {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <YAxis padding={{top: 10}}>
-            <Label dx={-20} angle={270} position="outside" value="Total Ltrs used"/>
+            <Label dx={-40} angle={270} position="outside" value="Total Ltrs used"/>
           </YAxis>
       </BarChart>
     </div>}
