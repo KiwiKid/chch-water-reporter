@@ -48,6 +48,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   const mapEvents = useMapEvents({
       zoomend: () => {
         if(!zoomTracker || zoom != zoomTracker){
+          setZoomTracker(zoomTracker)
           setCircleSize(getCircleSize(p))
         }
       },
@@ -55,7 +56,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   let zoom = mapEvents.getZoom()
   return (
-    <CircleMarker pathOptions={{color: p.styleData.colorCode }} className={p.styleData.colorClass} radius={circleSize} key={p.property.id} center={p.property.point}> 
+    <CircleMarker key={p.property.id} pathOptions={{color: p.styleData.colorCode }} className={p.styleData.colorClass} radius={circleSize} center={p.property.point}> 
       {p && <Popup>
         {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
           <div style={{textAlign: 'center'}}>~{p.averageUsage.toFixed(0)} Ltr per day</div>
