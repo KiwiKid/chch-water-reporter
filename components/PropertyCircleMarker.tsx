@@ -1,8 +1,8 @@
-import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popup, useMapEvents } from "react-leaflet";
-import { useEffect, useMemo, useState } from "react";
-import getColorClass from "./lib/getColor";
+import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popup, Tooltip, useMapEvents } from "react-leaflet";
+import { useEffect, useState } from "react";
 import React from "react";
 import { byDateFor } from "./Usage";
+import { CartesianGrid,  Label, Line, LineChart, YAxis } from "recharts";
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -55,14 +55,34 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
   });
 
   let zoom = mapEvents.getZoom()
+
+  const usageData = p.usages.length > 1 ? p.usages.map((u) => {
+    return {
+      "name": `${u.date_for}`,
+      "level": u.avg_per_day_ltr_num
+    }
+  }) : []
+
+
   return (
     <CircleMarker key={p.property.id} pathOptions={{color: p.styleData.colorCode }} className={p.styleData.colorClass} radius={circleSize} center={p.property.point}> 
       {p && <Popup>
         {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID} data-property={p.property.FullPostalAddress}>
-          <div style={{textAlign: 'center'}}>~{p.averageUsage.toFixed(0)} Ltr per day</div>
-          <div style={{fontSize: '0.8rem', textAlign: 'center'}}><a target="_blank" href={`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a></div>
+          <div>
+            <div style={{textAlign: 'left'}}><span style={{textDecoration:'underline', fontSize: `1.8rem`}}>{p.averageUsage.toFixed(0)}</span> ltrs per day</div>
+            <div style={{textAlign: 'left'}}><a target="_blank" href={`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a>
+            </div>
+          </div>
+          <div>
+            {usageData.length > 0 && <LineChart width={310} height={175} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <YAxis fontSize="0.8rem"><Label dx={-24} angle={270} position="outside" value="lts per day"/></YAxis>
+              <Tooltip />
+              <Line type="monotone" dataKey="level" stroke="#8884d8" />
+            </LineChart>}
+          </div>
         </h3>}
-        <table> 
+        <table width={310}> 
           <thead>
             <tr style={{fontStyle: 'bold', whiteSpace: 'nowrap'}}>
               <th>From</th>
