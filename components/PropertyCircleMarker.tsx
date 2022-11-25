@@ -15,7 +15,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   const [zoomTracker, setZoomTracker] = useState(null)
 
-  const MIN_CIRCLE_SIZE = 0;
+  const MIN_CIRCLE_SIZE = 100;
   const MAX_CIRCLE_SIZE = 5000;
   const getCircleSize = (p:PropertyWithUsages, zoom:number) => {
   let scaleFactor = 0.000
