@@ -17,8 +17,7 @@ return <>
       width: 101wh;
     }
 
-    .leaflet-control {
-      
+    .leaflet-control-layers {
       font-size: 1.6rem;
     }
   `}</style><></>

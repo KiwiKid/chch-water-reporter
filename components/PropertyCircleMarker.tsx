@@ -1,8 +1,9 @@
-import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Popup, Tooltip, useMapEvents } from "react-leaflet";
+import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Marker, Popup, Tooltip, useMapEvents } from "react-leaflet";
 import { useEffect, useState } from "react";
 import React from "react";
 import { byDateFor } from "./Usage";
 import { CartesianGrid,  Label, Line, LineChart, YAxis } from "recharts";
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -16,9 +17,8 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   const MIN_CIRCLE_SIZE = 0;
   const MAX_CIRCLE_SIZE = 5000;
-  const getCircleSize = (p:PropertyWithUsages) => {
+  const getCircleSize = (p:PropertyWithUsages, zoom:number) => {
   let scaleFactor = 0.000
-  let zoom = mapEvents.getZoom()
     if(zoom === 18){
       scaleFactor = 0.0014
     }else if(zoom >= 16){
@@ -41,20 +41,20 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
     // hacky check to prevent lots of recalc when the zoom changes
     if(!zoomTracker || zoom != zoomTracker){
       setZoomTracker(zoomTracker)
-      setCircleSize(getCircleSize(p))
+      setCircleSize(getCircleSize(p, zoom))
     }
   }, [])
   
-  const mapEvents = useMapEvents({
+  const map = useMapEvents({
       zoomend: () => {
         if(!zoomTracker || zoom != zoomTracker){
           setZoomTracker(zoomTracker)
-          setCircleSize(getCircleSize(p))
+          setCircleSize(getCircleSize(p, zoom))
         }
       },
   });
 
-  let zoom = mapEvents.getZoom()
+  let zoom = map.getZoom()
 
   const usageData = p.usages.length > 1 ? p.usages.map((u) => {
     return {
@@ -101,7 +101,6 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
               )
             })}
           </tbody>
-          
         </table>
         {process.env.REACT_APP_DEBUG === 'true' && <pre>
           {JSON.stringify(p.usages, null ,4)}
