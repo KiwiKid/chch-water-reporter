@@ -43,13 +43,15 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
   //const data_eg = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
 
   return (<>
-  <div style={{textAlign: 'center'}}><h1>total litres used </h1><h2>total litres used (y) vs avg litres - in X000s Ltrs (x)</h2></div>
+  <div style={{textAlign: 'center', padding: '10px'}}>
+    <h1>{markerLine} ltrs used per day</h1>
+    <h1>total litres used </h1><h2>total litres used (y) vs avg litres - in X000s Ltrs (x)</h2></div>
     {status === 'fetching' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take approximately 10 seconds)...</h1></div>}
     {status === 'idle' &&     <div style={{textAlign: 'center', width: '100%', color: 'white'}}>{status}<h1>Loading (this should take approximately 10 seconds)...</h1></div>}
     {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <BarChart
           width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
-          height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 600) : 0}
+          height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 400) : 0}
           data={data}
           margin={{
             top: 20,
@@ -64,7 +66,7 @@ export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
           </XAxis>
           <Bar dataKey="totalAvgLtrs" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9} stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
-          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
+          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: `${markerLine} ltrs per day`}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <YAxis padding={{top: 10}}>
             <Label dx={-40} angle={270} position="outside" value="Total Ltrs used"/>
           </YAxis>

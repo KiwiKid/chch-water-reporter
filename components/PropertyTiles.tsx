@@ -15,30 +15,25 @@ type PropertyTilesProps = {
 }
 
 export default function PropertyTiles({}:PropertyTilesProps) {
-  const { status, groupedProperties, properties,  } = useProperties({exculdeZeroUsage: true});
-  const [onlyShowOverLtrs, setOnlyShowOverLtrs] = useState<number>(500)
+  const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
+  const [onlyShowOver, setOnlyShowOver] = useState<number>(5)
 
   const map = useMapEvents({
-      zoomend: () => { 
+      zoomend: () => {
         let zoom = map.getZoom();
-        let overLtrsDefault = 500
-
-        if(zoom < 12){
-          overLtrsDefault = 2000
+        if(zoom < 8){
+          setOnlyShowOver(5)
+        }else if(zoom == 9){
+          setOnlyShowOver(5)
+        }else if(zoom == 10){
+          setOnlyShowOver(5)
+        }else if(zoom == 12){
+          setOnlyShowOver(4)
+        }else if(zoom == 14){
+          setOnlyShowOver(3)
+        }else if(zoom > 14){
+          setOnlyShowOver(0)
         }
-        if(zoom < 14){
-          overLtrsDefault  = 2000
-        }
-        if(zoom === 14){
-          overLtrsDefault  = 1500
-        }
-        if(zoom >= 14){
-          overLtrsDefault = 0
-        }
-
-        setOnlyShowOverLtrs(overLtrsDefault)
-        console.log(zoom)
-        console.log(`onlyShowOverLtrs: ${onlyShowOverLtrs}`)
       },
   });
 
@@ -55,12 +50,12 @@ export default function PropertyTiles({}:PropertyTilesProps) {
         return startingCharA > startingCharB ? 1 : -1
       }).map((pKey) => {
         return (
-          <LayersControl.Overlay checked key={`${pKey} ${onlyShowOverLtrs}`} name={` ${pKey.substring(1, pKey.length)} [${((groupedProperties[pKey].length/properties.length)*100).toFixed(0)}% - ${groupedProperties[pKey].length}/${properties.length}]`}>
+          <LayersControl.Overlay checked key={`${pKey}`} name={` ${pKey.substring(1, pKey.length)} [${((groupedProperties[pKey].length/properties.length)*100).toFixed(0)}% - ${groupedProperties[pKey].length}/${properties.length}]`}>
             <FeatureGroup>
               {groupedProperties[pKey]
                 .filter((p) => p.property.point && p.usages.length > 0)
-                .filter((p) => p.averageUsage > onlyShowOverLtrs)
-                .map((p) => (<PropertyCircleMarker key={p.property.id} p={p}/>))}
+                .filter((p) => p.randomGroup > onlyShowOver)
+                .map((p) => (<PropertyCircleMarker key={`${p.property.id}`} p={p}/>))}
             </FeatureGroup>
           </LayersControl.Overlay>)
       })}

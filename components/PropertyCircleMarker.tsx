@@ -1,9 +1,8 @@
-import PropertyWithUsages from "./PropertyWithUsage";import { CircleMarker, Marker, Popup, Tooltip, useMapEvents } from "react-leaflet";
+import PropertyWithUsages, { CircleSizes } from "./PropertyWithUsage";import { CircleMarker, Marker, Popup, Tooltip, useMapEvents } from "react-leaflet";
 import { useEffect, useState } from "react";
 import React from "react";
 import { byDateFor } from "./Usage";
 import { CartesianGrid,  Label, Line, LineChart, YAxis } from "recharts";
-import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -15,46 +14,27 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
 
   const [zoomTracker, setZoomTracker] = useState(null)
 
-  const MIN_CIRCLE_SIZE = 100;
-  const MAX_CIRCLE_SIZE = 5000;
-  const getCircleSize = (p:PropertyWithUsages, zoom:number) => {
-  let scaleFactor = 0.000
-    if(zoom === 18){
-      scaleFactor = 0.0014
-    }else if(zoom >= 16){
-      scaleFactor = 0.0012
-    }else if(zoom >= 14){
-      scaleFactor = 0.0010
-    }else if(zoom >= 10){
-      scaleFactor = 0.0008
-    }else if(zoom >= 8){ 
-      scaleFactor = 0.0005
-    }else if(zoom >= 6){
-      scaleFactor = 0.0007
-    }else{
-      scaleFactor = 0.0001
-    }
-    return Math.min(Math.max((p.averageUsage/2), MIN_CIRCLE_SIZE), MAX_CIRCLE_SIZE)*(scaleFactor*zoom)
-  }
+
+
+  
+  const map = useMapEvents({
+      zoomend: () => { }/*
+        if(!zoomTracker || zoom != zoomTracker){
+          setZoomTracker(zoomTracker)
+          setCircleSize(p.circleSizes[zoom.toString() as keyof CircleSizes] || 300)
+        }
+      },*/
+  });
+
+  let zoom = map.getZoom()
 
   useEffect(() => {
     // hacky check to prevent lots of recalc when the zoom changes
     if(!zoomTracker || zoom != zoomTracker){
       setZoomTracker(zoomTracker)
-      setCircleSize(getCircleSize(p, zoom))
+      setCircleSize(p.circleSizes[zoom.toString() as keyof CircleSizes] || 300)
     }
-  }, [])
-  
-  const map = useMapEvents({
-      zoomend: () => {
-        if(!zoomTracker || zoom != zoomTracker){
-          setZoomTracker(zoomTracker)
-          setCircleSize(getCircleSize(p, zoom))
-        }
-      },
-  });
-
-  let zoom = map.getZoom()
+  }, [zoom])
 
   const usageData = p.usages.length > 1 ? p.usages.map((u) => {
     return {

@@ -38,16 +38,16 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
   //const data_eg = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}, {name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
 
   return (<>
-    <div style={{textAlign: 'center'}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
+    <div style={{textAlign: 'center', padding: '10px '}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
       {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
       {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <div>
           This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc)
         </div>
-        {markerLine ? <div>["You are HERE" show where the properties usage compares]</div> : null}
+        {markerLine ? <h2>["You are HERE" show where the properties usage compares]</h2> : null}
         <BarChart
           width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
-          height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 600) : 0}
+          height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 400) : 0}
           data={data}
           margin={{
             top: 20,
