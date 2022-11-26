@@ -1,5 +1,5 @@
 import Property from "./Property";
-import Usage from "./Usage";
+import Usage, { byDateFor } from "./Usage";
 import groupBy  from 'lodash/groupBy'
 import getColorClass, { StyleData } from "./lib/getColor";
 import { getCircleSize } from './lib/getCircleSize'
@@ -44,7 +44,8 @@ class PropertyWithUsages {
     const singleUsages = groupBy(usages, (u) => `${u.property_id} ${u.date_for}`)
     this.usages = Object.keys(singleUsages).map((key) => singleUsages[key][0])
 
-    this.averageUsage = usages.reduce((a, b) => a + b.avg_per_day_ltr_num, 0) / usages.length
+    let latestUsage = usages.sort(byDateFor)[usages.length-1]?.avg_per_day_ltr_num || 0
+    this.averageUsage = latestUsage //usages.reduce((a, b) => a + b.avg_per_day_ltr_num, 0) / usages.length
     
     this.styleData = getColorClass(this.averageUsage)
 

@@ -44,7 +44,6 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
         <div>
           This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc)
         </div>
-        {markerLine ? <h2>["You are HERE" show where the properties usage compares]</h2> : null}
         <BarChart
           width={!!windowSize && windowSize.width ? windowSize.width*0.95 : 0}
           height={!!windowSize && windowSize.height ? Math.min(windowSize.height*0.95, 400) : 0}
@@ -65,7 +64,7 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
           </XAxis>
           <Bar dataKey="lengthOfEntries" stackId="a" fill="#8884d8" />
           <ReferenceLine x={9}  stroke="red" isFront={true} label={{ position: 'top', value: 'Charges apply (>900 Ltrs)', fill: 'red', fontSize: 14 }}  strokeDasharray="3 3" />
-          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: 'You are HERE'}} x={Math.min(+(markerLine/100).toFixed(0), 55)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
+          {markerLine && <ReferenceLine strokeWidth={5} label={{ position: 'top', value: `${markerLine} ltrs per day`}} x={Math.min(+(markerLine/100).toFixed(0), 75)} stroke="black" orientation="left" isFront={true} strokeDasharray="6 6" />}
           <div>
           (Properties with a water usage greater than 7500 ltrs per day are excluded for clarity)
           </div>

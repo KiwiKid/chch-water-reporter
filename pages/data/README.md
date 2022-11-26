@@ -1,0 +1,1 @@
+.json files in this folder can be safely deleted and re-generated via the update-data command
