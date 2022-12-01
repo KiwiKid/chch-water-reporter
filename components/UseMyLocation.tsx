@@ -21,7 +21,7 @@ const [isLocated, setIsLocated] = useState<boolean>(false)
     }
 
     return (
-        <div id="use-my-location" style={{zIndex: 1001, display: 'block', position: 'absolute', bottom: 0, margin: '1rem' }}>
+        <div id="use-my-location" className='w-full'>
             {/*<label className="h-4 hidden" htmlFor="ViewAllButton">Request GPS location:</label>
             <HomepageLink 
                 homepage={pageState.homepage}
@@ -40,7 +40,7 @@ const [isLocated, setIsLocated] = useState<boolean>(false)
                 linkClassName="w-full border-b-4 border-green-800 bg-green-500 w-3/4 h-12 px-6 text-green-100 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-green-800"
                 widthClass="w-full"
     >Near Me</InternalLink>*/}
-        <button onClick={() => useMyLoc()}>Use My Location</button>
+        <button className='min-w-fit' onClick={() => useMyLoc()}>Use My Location</button>
     </div>
 )
 }

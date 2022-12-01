@@ -6,42 +6,18 @@ import { CartesianGrid,  Label, Line, LineChart, YAxis } from "recharts";
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
+    circleSize:number
 }
 
-export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
+export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarkerProps) {
   
-  const [circleSize, setCircleSize] = useState(0);
-
-  const [zoomTracker, setZoomTracker] = useState(null)
-
-
-
-  
-  const map = useMapEvents({
-      zoomend: () => { }/*
-        if(!zoomTracker || zoom != zoomTracker){
-          setZoomTracker(zoomTracker)
-          setCircleSize(p.circleSizes[zoom.toString() as keyof CircleSizes] || 300)
-        }
-      },*/
-  });
-
-  let zoom = map.getZoom()
-
-  useEffect(() => {
-    // hacky check to prevent lots of recalc when the zoom changes
-    if(!zoomTracker || zoom != zoomTracker){
-      setZoomTracker(zoomTracker)
-      setCircleSize(p.circleSizes[zoom.toString() as keyof CircleSizes] || 300)
-    }
-  }, [zoom])
-
   const usageData = p.usages.length > 1 ? p.usages.map((u) => {
     return {
       "name": `${u.date_for}`,
       "level": u.avg_per_day_ltr_num
     }
   }) : []
+
 
 
   return (
@@ -54,7 +30,7 @@ export default function PropertyCircleMarker({p}:PropertyCircleMarkerProps) {
             </div>
           </div>
           <div>
-            {usageData.length > 0 && <LineChart width={310} height={175} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+            {usageData.length > 0 && <LineChart width={200} height={80} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <YAxis fontSize="0.8rem"><Label dx={-24} angle={270} position="outside" value="lts per day"/></YAxis>
               <Tooltip />
