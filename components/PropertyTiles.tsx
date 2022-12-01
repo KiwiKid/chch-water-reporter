@@ -29,13 +29,13 @@ export default function PropertyTiles({}:PropertyTilesProps) {
         console.log('loading')
         let zoom = map.getZoom();
         if(zoom < 8){
-          setOnlyShowOver(5)
+          setOnlyShowOver(7)
         }else if(zoom == 9){
-          setOnlyShowOver(5)
+          setOnlyShowOver(6)
         }else if(zoom == 10){
           setOnlyShowOver(5)
         }else if(zoom == 12){
-          setOnlyShowOver(4)
+          setOnlyShowOver(5)
         }else if(zoom == 14){
           setOnlyShowOver(3)
         }else if(zoom > 14){
