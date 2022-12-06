@@ -10,17 +10,20 @@ import Usage from '../../components/Usage'
  * Api called by the update-script (yarn run update-data) to update the json data file.
  * The generated json file is then committed to deploy the new data
  */
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<PropertyWithUsages[]>
 ) {
 
-  const propertiesResponse = await fetch('http://192.168.1.5:1888/chch-water-property/all')
+  const serverUrl = process.env.BASE_API_URL
+
+  const propertiesResponse = await fetch(`${serverUrl}/chch-water-property/all`)
   const propertyRaw = await propertiesResponse.json()
     
   const properties = propertyRaw.property.map((p:Property) => new Property(p))
 
-  const usagesResponse = await fetch('http://192.168.1.5:1888/chch-water-usage/all')
+  const usagesResponse = await fetch(`${serverUrl}/chch-water-usage/all`)
   const usagesRaw = await usagesResponse.json();
   const usages = usagesRaw.usages.map((p:Usage) => new Usage(p));
 
