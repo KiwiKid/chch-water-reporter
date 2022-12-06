@@ -45,8 +45,6 @@ export default function PropertyTiles({}:PropertyTilesProps) {
         }else if(zoom > 14){
           setOnlyShowOver(0)
         }
-        console.log(map.getCenter())
-        console.log(map.getZoom())
       }
   }); 
 
@@ -86,7 +84,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       <div className='being-shown-indicator'>
         <div>{isLoading ? 'LOADING ' : null}</div>
         <div><button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Show All' : 'Show most'}{adaptiveZoom && onlyShowOver !== 0 ? <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</> : null}</button></div>
-        <div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>
+        {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
         <div><button onClick={() => map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom)}>Reset Map</button></div> 
         <div><UseMyLocation /></div>
       </div>

@@ -21,12 +21,14 @@ export interface CircleSizes {
   "13"?:number,
   "14"?:number,
   "15"?:number,
-  "16"?:number
+  "16"?:number,
+  "17"?:number,
+  "18"?:number,
 }
 
 
 /**
- * Run 'yarn run update-data' to apply updates to this object
+ * NOTE: Run 'yarn run update-data' to apply updates to this object
  */
 class PropertyWithUsages {
   property: Property;
@@ -51,7 +53,7 @@ class PropertyWithUsages {
 
     this.randomGroup = parseInt(property.RatingUnitID.substring(property.RatingUnitID.length-1, property.RatingUnitID.length))
 
-    this.circleSizes = {
+    this.circleSizes = {  
       "0": getCircleSize(this.averageUsage, 0),
       "1": getCircleSize(this.averageUsage, 1),
       "2": getCircleSize(this.averageUsage, 2),
@@ -69,6 +71,8 @@ class PropertyWithUsages {
       "14": getCircleSize(this.averageUsage, 14),
       "15": getCircleSize(this.averageUsage, 15),
       "16": getCircleSize(this.averageUsage, 16),
+      "17": getCircleSize(this.averageUsage, 17),
+      "18": getCircleSize(this.averageUsage, 18),
     }
   }
 }
