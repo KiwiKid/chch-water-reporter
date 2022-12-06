@@ -39,10 +39,8 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom, setIsLoading}:MapLaye
 return (
     <FeatureGroup>
         {!visibleProperties ? null : visibleProperties
-            .map((p) => {
-                console.log('loading?')
+            .map((p) =>     {
                 let circleSize = p.circleSizes[(map.getZoom().toString() as keyof CircleSizes)] || 300
-                console.log('loaded?')
                 return (<PropertyCircleMarker key={`${p.property.id}`} p={p} circleSize={circleSize}/>)
             })}
     </FeatureGroup>

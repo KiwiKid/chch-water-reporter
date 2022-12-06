@@ -6,12 +6,12 @@
 # https://stackoverflow.com/a/20434740 (get the current directory)
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
-mv "$DIR/../pages/data/test_data.json" "$DIR/../pages/data/test_data_previous.json" 
+mv "$DIR/../pages/data/property_data.json" "$DIR/../pages/data/property_data_old.json" 
 
-curl 'http://localhost:3000/api/property' >> "$DIR/../pages/data/test_data.json"
+curl 'http://localhost:3000/api/property' >> "$DIR/../pages/data/property_data.json"
 
 
-echo "new file here: $DIR/../pages/data/test_data.json"
-echo "(old file here: $DIR/../pages/data/test_data_previous.json)"
+echo "new file here: $DIR/../pages/data/property_data.json"
+echo "(old file here: $DIR/../pages/data/property_data_old.json"
 
-echo "Commit new \"test_data.json\" to apply"
+echo "Commit new \"property_data.json\" file to apply"

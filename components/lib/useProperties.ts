@@ -2,13 +2,13 @@ import localforage from "localforage";
 import { useEffect, useState } from "react";
 import PropertyWithUsages from "../PropertyWithUsage";
 
-import testData from '../../pages/data/test_data.json'
+import testData from '../../pages/data/property_data.json'
 import _, { Dictionary } from "lodash";
 
 export type PropertyStatus = 'idle'|'fetching'|'fetched'
 
 
-export type CacheOptions = 'cache'|'test'|'no-cache'
+export type CacheOptions = 'cache'|'file'|'no-cache'
 
 interface UsePropertiesProps {
     exculdeZeroUsage?:boolean
@@ -31,9 +31,9 @@ const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
     
 
     useEffect(() => {
-        const cacheSetting:CacheOptions = process.env.REACT_APP_NO_CACHE as CacheOptions || 'test'
+        const cacheSetting:CacheOptions = process.env.REACT_APP_NO_CACHE as CacheOptions || 'file'
         try{
-            if(cacheSetting == 'test'){
+            if(cacheSetting == 'file'){
                 console.info(`Gettting properties from the test data file`)
                 setProperties(testData as unknown as PropertyWithUsages[]);
                 setStatus('fetched');
@@ -82,16 +82,16 @@ const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
         setGroupedProperties(_.groupBy(properties, (p) => {
             switch(p.styleData.colorClass){
                 case 'low-level':{
-                    return `1LOW (0-500 Lts)`
+                    return `1<500 Lts`
                 }
                 case 'med-level':{
-                    return `2MED (500-700 Lts)`
+                    return `2500-700 Lts`
                 }
                 case 'high-level':{
-                    return `3HIGH (700-2000 Lts)`
+                    return `3700-2000 Lts`
                 }
                 case 'vhigh-level':{
-                    return `4V-HIGH (2000+ Lts)`
+                    return `4>2000 Lts`
                 }
             }
 
