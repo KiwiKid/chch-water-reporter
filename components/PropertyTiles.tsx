@@ -8,8 +8,9 @@ import { useProperties } from "./lib/useProperties";
 import PropertyCircleMarker from "./PropertyCircleMarker";
 import { CircleSizes } from "./PropertyWithUsage";
 import { MapLayer } from './MapLayer'
-import { UseMyLocation } from './UseMyLocation'
-
+import Button from './Button'
+import { Settings } from './Settings'
+import Image from 'next/image'
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type PropertyTilesProps = {   
@@ -17,16 +18,11 @@ type PropertyTilesProps = {
   //status:PropertyStatus
 }
 
-const CHRISTCHURCH_CENTER = {
-  latlng: new LatLng(-43.55, -187.370),
-  zoom: 12
-}
 
 export default function PropertyTiles({}:PropertyTilesProps) {
   const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
   const [onlyShowOver, setOnlyShowOver] = useState<number>(5)
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const [adaptiveZoom, setAdaptiveZoom] = useState<boolean>(true)
   const map = useMapEvents({
@@ -49,23 +45,6 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   }); 
 
   return <>
-    <style>
-      {`
-        .being-shown-indicator{
-          z-index: 1001;
-          display: block;
-          position: absolute;
-          bottom: 50px;
-          margin-right: 100px;
-          margin: 0rem; 
-          background-color: #FF5F1F;
-          color: black;
-          font-weight: bold;
-          padding: 5px;
-        }
-      `}
-    </style>
-
     {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
     {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
     {status === 'fetched' && !!groupedProperties && <LayersControl position="topright">
@@ -77,19 +56,12 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       }).map((pKey) => {
          return (
           <LayersControl.Overlay checked key={`${pKey}`} name={`${pKey.substring(1, pKey.length)} (${groupedProperties[pKey].length})`}>
-            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} setIsLoading={setIsLoading}/>
+            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} />
           </LayersControl.Overlay>)
       })}
       </LayersControl>}
-      <div className='being-shown-indicator'>
-        <div>{isLoading ? 'LOADING ' : null}</div>
-        <div><button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Show All' : 'Show most'}{adaptiveZoom && onlyShowOver !== 0 ? <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</> : null}</button></div>
-        {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
-        <div><button onClick={() => map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom)}>Reset Map</button></div> 
-        <div><UseMyLocation /></div>
-      </div>
+      <Settings adaptiveZoom={adaptiveZoom} setAdaptiveZoom={setAdaptiveZoom} onlyShowOver={onlyShowOver}  />
       
-
 {/*}
       <div id="use-my-location"  style={{ backgroundColor: 'blue', zIndex: 99999, top: 0, right: 0}}>
       <label hidden={true} htmlFor="NearMeButton">Request GPS location:</label>

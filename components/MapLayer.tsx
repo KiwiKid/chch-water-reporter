@@ -7,19 +7,16 @@ type MapLayerProps = {
     properties:PropertyWithUsages[]
     onlyShowOver:number
     adaptiveZoom:boolean
-    setIsLoading:any
 }
 
-const MapLayer = ({properties, onlyShowOver, adaptiveZoom, setIsLoading}:MapLayerProps) => {
+const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
 
     let refereshVisibleProperties = () => {
-        setIsLoading(true)
         setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
             .filter((p) => map.getBounds().contains(p.property.point))
             .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
-        setIsLoading(false)
     }
         
     useEffect(() => {

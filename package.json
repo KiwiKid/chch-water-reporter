@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.10.16",
     "@types/dotenv": "^8.2.0",
     "@types/geojson": "^7946.0.10",
     "@types/leaflet": "^1.8.0",
