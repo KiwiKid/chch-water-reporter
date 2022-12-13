@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { LatLng } from "leaflet";
+import React, { useCallback, useEffect, useState } from "react";
 import { FeatureGroup, LayerGroup, LayersControl, useMap, useMapEvent, useMapEvents } from "react-leaflet";
 import PropertyCircleMarker from '../components/PropertyCircleMarker'
 import PropertyWithUsages, { CircleSizes } from "./PropertyWithUsage";
@@ -12,16 +13,9 @@ type MapLayerProps = {
 const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
+    let [oldMapZoom, setOldMapZoom] = useState<number>();
+    let [oldMapBounds, setOldMapBounds] = useState<any>();
 
-    let refereshVisibleProperties = () => {
-        setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
-            .filter((p) => map.getBounds().contains(p.property.point))
-            .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
-    }
-        
-    useEffect(() => {
-        refereshVisibleProperties()
-    }, [adaptiveZoom])
 
 
     const map = useMapEvents({
@@ -30,8 +24,32 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
         },
         moveend:() => {
             refereshVisibleProperties()
+        },
+        load:() => {
+            refereshVisibleProperties()
         }
     })
+    //let zoom = map.getZoom()
+   // let bounds = map.getBounds()
+
+
+    let refereshVisibleProperties = () => {
+        //let map = useMap();
+        //let zoom = map.getZoom()
+        //let bounds = map.getBounds()
+        //if(zoom !== oldMapZoom || bounds !== oldMapBounds){
+            setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
+                .filter((p) => map.getBounds().contains(p.property.point))
+                .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
+        //}
+       // setOldMapZoom(zoom)
+        //setOldMapBounds(bounds)
+    }
+/*
+    useEffect(() => {
+        refereshVisibleProperties()
+    }, [adaptiveZoom, refereshVisibleProperties])
+*/
 
 return (
     <FeatureGroup>

@@ -20,7 +20,7 @@ export default function MyMapContainer({}:MyMapContainerProps) {
 
     useEffect(() => {
         setIsClient(typeof window !== 'undefined')
-    })
+    }, [])
 
   return <>
   <style>{`

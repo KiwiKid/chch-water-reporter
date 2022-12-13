@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useMapEvent, useMapEvents } from 'react-leaflet';
-import Button from './Button';
+import { Button } from './Button';
 
 const UseMyLocation = () => {
 
-const [isLocated, setIsLocated] = useState<boolean>(false)
+    const [isLocated, setIsLocated] = useState<boolean>(false)
 
     const map = useMapEvents({
         locationfound: (e:any) => {
@@ -41,7 +41,7 @@ const [isLocated, setIsLocated] = useState<boolean>(false)
                 linkClassName="w-full border-b-4 border-green-800 bg-green-500 w-3/4 h-12 px-6 text-green-100 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-green-800"
                 widthClass="w-full"
     >Near Me</InternalLink>*/}
-        <Button className='min-w-fit' onClick={() => useMyLoc()}>Use My Location</Button>
+        <Button className='min-w-fit' onClick={useMyLoc}>Use My Location</Button>
     </div>
 )
 }

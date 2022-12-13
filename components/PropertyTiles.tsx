@@ -8,7 +8,7 @@ import { useProperties } from "./lib/useProperties";
 import PropertyCircleMarker from "./PropertyCircleMarker";
 import { CircleSizes } from "./PropertyWithUsage";
 import { MapLayer } from './MapLayer'
-import Button from './Button'
+import { Button } from './Button'
 import { Settings } from './Settings'
 import Image from 'next/image'
 //import { LatLng } from 'leaflet'

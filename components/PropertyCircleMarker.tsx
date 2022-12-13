@@ -26,7 +26,7 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
         {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID}>
           <div>
             <div style={{textAlign: 'left'}}><span style={{textDecoration:'underline', fontSize: `1.8rem`}}>{p.averageUsage.toFixed(0)}</span> ltrs per day</div>
-            <div style={{textAlign: 'left'}}><a target="_blank" href={`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a>
+            <div style={{textAlign: 'left'}}><a target="_blank" rel="noreferrer" href={`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`} style={{ textDecorationLine: 'underline'}}>how does it compare?</a>
             </div>
           </div>
           <div>

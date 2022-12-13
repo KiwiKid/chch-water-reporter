@@ -2,7 +2,7 @@ import { LatLng } from 'leaflet';
 import Image from 'next/image';
 import React, { useState } from 'react'
 import { useMap, useMapEvent, useMapEvents } from 'react-leaflet';
-import Button from './Button';
+import { Button } from './Button';
 import { UseMyLocation } from './UseMyLocation'
 
 const CHRISTCHURCH_CENTER = {
@@ -29,7 +29,7 @@ const map = useMap();
         <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 20, left: 10, padding: '0.7rem', borderRadius: 14}}>
             {!isShowingFull ?
             <div onClick={() => setIsShowingFull(true)}>
-            <Image src={'/settings.svg'} width={30} height={30} />
+            <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
             </div> :
             <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 20, left: 10, padding: '0.7rem', borderRadius: 14, width: '600px', margin: 'auto'}} >
             <div>{isLoading ? 'LOADING ' : null}</div>

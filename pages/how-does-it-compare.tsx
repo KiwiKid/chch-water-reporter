@@ -7,6 +7,7 @@ import ByHousehold from '../components/ByHousehold'
 import ByAmountUsed from '../components/ByAmountUsed'
 import React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const WhereAmI: NextPage = () => {
 
@@ -26,7 +27,7 @@ const WhereAmI: NextPage = () => {
       </Head>
 
       <main >
-        <a style={{fontSize: '1.5rem', textDecoration: 'underline'}} href='/'>{`<<`} back to map</a>
+        <Link style={{fontSize: '1.5rem', textDecoration: 'underline'}} href='/'>{`<<`} back to map</Link>
         <div>
           <ByHousehold markerLine={avgNum}/>
           <ByAmountUsed markerLine={avgNum}/>

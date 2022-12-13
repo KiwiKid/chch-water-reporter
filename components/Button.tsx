@@ -2,12 +2,17 @@ import React from "react";
 
 interface ButtonProps {
     children:any
-    onClick:any
+    onClick:(e: React.MouseEvent<HTMLElement>) => void
+    className?:string
 }
 
-export default function Button({children, onClick}:ButtonProps){
+function Button({children, onClick, className}:ButtonProps){
     
-    return (<button onClick={onClick} style={{minHeight:'60px', minWidth:'200px'}} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+    return (<button className={` ${className} bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center}`} onClick={onClick} style={{minHeight:'60px', minWidth:'200px'}}>
         {children}
   </button>)
+}
+
+export {
+    Button
 }

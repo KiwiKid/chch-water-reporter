@@ -75,7 +75,7 @@ const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
             console.error(err)
         }
         //const groupedPropertyCircleMarkers = 
-    }, []);
+    }, [exculdeZeroUsage]);
 
     useEffect(() => {
         const groupingAmount = 500;
