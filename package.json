@@ -18,6 +18,7 @@
     "@types/react-leaflet": "^2.8.2",
     "@types/recharts": "^1.8.24",
     "@vercel/analytics": "^0.1.5",
+    "csstype": "^3.1.1",
     "dotenv": "^16.0.3",
     "leaflet": "^1.9.2",
     "localforage": "^1.10.0",

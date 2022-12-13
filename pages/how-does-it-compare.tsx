@@ -27,7 +27,7 @@ const WhereAmI: NextPage = () => {
       </Head>
 
       <main >
-        <Link style={{fontSize: '1.5rem', textDecoration: 'underline'}} href='/'>{`<<`} back to map</Link>
+        <Link style={{fontSize: '1.5rem', textDecoration: 'underline'}} href='/'><>{`<<`} back to map</></Link>
         <div>
           <ByHousehold markerLine={avgNum}/>
           <ByAmountUsed markerLine={avgNum}/>

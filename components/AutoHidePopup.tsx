@@ -13,7 +13,7 @@ const AutoHidePopup = ({children,maxWidth}:AutoHidePopupProps) => {
     const hideElement = () => {
         if (!popupElRef.current) return;
         //@ts-ignore
-        popupElRef.current._close();
+        // popupElRef.current._close();
     };
 
     const map = useMapEvents({

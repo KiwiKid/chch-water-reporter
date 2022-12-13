@@ -45,11 +45,11 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
        // setOldMapZoom(zoom)
         //setOldMapBounds(bounds)
     }
-/*
+
     useEffect(() => {
         refereshVisibleProperties()
-    }, [adaptiveZoom, refereshVisibleProperties])
-*/
+    }, [adaptiveZoom])
+
 
 return (
     <FeatureGroup>
