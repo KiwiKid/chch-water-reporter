@@ -6,7 +6,7 @@ import { FeatureGroup, LayerGroup, LayersControl, useMap, useMapEvent, useMapEve
 import getColor from "./lib/getColor";
 import { useProperties } from "./lib/useProperties";
 import PropertyCircleMarker from "./PropertyCircleMarker";
-import { CircleSizes } from "./PropertyWithUsage";
+import PropertyWithUsages, { CircleSizes } from "./PropertyWithUsage";
 import { MapLayer } from './MapLayer'
 import { Button } from './Button'
 import { Settings } from './Settings'
@@ -23,26 +23,45 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
   const [onlyShowOver, setOnlyShowOver] = useState<number>(5)
 
+  const [isShowingFull, setIsShowingFull] = useState<boolean>(false)
 
   const [adaptiveZoom, setAdaptiveZoom] = useState<boolean>(true)
+
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
+
   const map = useMapEvents({
-      zoomend: () => {
-        let zoom = map.getZoom();
-        if(zoom < 8){
-          setOnlyShowOver(7)
-        }else if(zoom == 9){
-          setOnlyShowOver(6)
-        }else if(zoom == 10){
-          setOnlyShowOver(5)
-        }else if(zoom == 12){
-          setOnlyShowOver(5)
-        }else if(zoom == 14){
-          setOnlyShowOver(3)
-        }else if(zoom > 14){
-          setOnlyShowOver(0)
-        }
-      }
-  }); 
+    zoomend: (zoomEvt) => {
+    let zoom = zoomEvt.target._zoom;
+    if(zoom < 8){
+      setOnlyShowOver(7)
+    }else if(zoom == 9){
+      setOnlyShowOver(6)
+    }else if(zoom == 10){
+      setOnlyShowOver(5)
+    }else if(zoom == 12){
+      setOnlyShowOver(5)
+    }else if(zoom == 14){
+      setOnlyShowOver(3)
+    }else if(zoom > 14){
+      setOnlyShowOver(0)
+    }
+  }
+})
+
+  let setLoadingHappened = () => {
+    console.log('setIsLoading(true)')
+    setIsLoading(true)
+    clearTimeout(isLoadingTimeout);
+    
+    // API CALL
+    setIsLoadingTimeout(setTimeout(function() {
+      console.log('setIsLoading')
+      setIsLoading(false)
+    }, 1000))
+  }
+
+
 
   return <>
     {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
@@ -56,12 +75,19 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       }).map((pKey) => {
          return (
           <LayersControl.Overlay checked key={`${pKey}`} name={`${pKey.substring(1, pKey.length)} (${groupedProperties[pKey].length})`}>
-            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} />
+            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} setLoadingHappened={setLoadingHappened}/>
           </LayersControl.Overlay>)
       })}
       </LayersControl>}
-      <Settings adaptiveZoom={adaptiveZoom} setAdaptiveZoom={setAdaptiveZoom} onlyShowOver={onlyShowOver}  />
-      
+      <Settings 
+        isLoading={isLoading}
+        adaptiveZoom={adaptiveZoom}
+        setAdaptiveZoom={setAdaptiveZoom}
+        onlyShowOver={onlyShowOver}
+        isShowingFull={isShowingFull}
+        setIsShowingFull={setIsShowingFull} 
+        />
+
 {/*}
       <div id="use-my-location"  style={{ backgroundColor: 'blue', zIndex: 99999, top: 0, right: 0}}>
       <label hidden={true} htmlFor="NearMeButton">Request GPS location:</label>

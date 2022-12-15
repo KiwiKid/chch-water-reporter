@@ -10,39 +10,59 @@ const CHRISTCHURCH_CENTER = {
     zoom: 12
   }
 
+  const FLY_TO_OPTIONS = {
+    animate: false
+  }
+
   interface SettingsProps {
     adaptiveZoom:any
     setAdaptiveZoom:any
     onlyShowOver:number
+    isShowingFull:boolean
+    setIsShowingFull:(opt:boolean) => void
+    isLoading:boolean
   }
 
-const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver}:SettingsProps) => {
+const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, setIsShowingFull, isLoading}:SettingsProps) => {
 
-const [isLocated, setIsLocated] = useState<boolean>(false)
+  const map = useMap();
 
-const [isLoading, setIsLoading] = useState<boolean>(true)
-const [isShowingFull, setIsShowingFull] = useState<boolean>(false)
+  let resetMap = () => {
+    map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
+    refereshVisibleProperties()
+  }
 
-const map = useMap();
-
-    return (
-        <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 20, left: 10, padding: '0.7rem', borderRadius: 14}}>
-            {!isShowingFull ?
-            <div onClick={() => setIsShowingFull(true)}>
+  return (
+    <>
+    <style>
+      {`
+      @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+      }
+      `}
+    </style>
+    <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 50, left: 10, padding: '0.7rem', borderRadius: 14}}>
+        {!isShowingFull ? <div onClick={() => setIsShowingFull(true)} style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite`: ''}}>
             <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
-            </div> :
-            <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 20, left: 10, padding: '0.7rem', borderRadius: 14, width: '600px', margin: 'auto'}} >
-            <div>{isLoading ? 'LOADING ' : null}</div>
+          </div> :
+          <div style={{zIndex: 1500, backgroundColor: 'rgb(71 85 105)', padding: '0.7rem', borderRadius: 14, width: '40rem', height: '4rem', margin: 'auto'}} >
             <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-                <div className="w-1/4"><Button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Show All' : 'Show most'}{adaptiveZoom && onlyShowOver !== 0 ? <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</> : null}</Button></div>
-                            {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
-                <div className="w-1/4"><Button onClick={() => map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom)}>Reset Map</Button></div>
-                <div className="w-1/4"><Button onClick={() => setIsShowingFull(false)}>Close</Button></div>
-                <div className="w-1/4"><UseMyLocation /></div>
-            </div>  
+              <div className="w-1/4"><Button onClick={() => setIsShowingFull(false)}>Close</Button></div>
+              <div className="w-1/4"><Button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Show All' : 'Show most\n(Best Performance)'}{adaptiveZoom && onlyShowOver !== 0 ? <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</> : null}</Button></div>
+                          {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
+              <div className="w-1/4"><Button onClick={() => resetMap()}>Reset Map</Button></div>
+              <div className="w-1/4"><UseMyLocation /></div>
+              {isLoading ? <div style={{ fontSize: 'large'}}>
+                <div style={{ width: '2rem', height: '2rem', animation: `spin 2s linear infinite`}}>
+                  <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
+                </div>
+              </div> : null}
             </div>
-            }
-      </div>
+          </div>
+        }
+    </div>
+    </>
 )
 }
 

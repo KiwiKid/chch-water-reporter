@@ -8,15 +8,16 @@ type MapLayerProps = {
     properties:PropertyWithUsages[]
     onlyShowOver:number
     adaptiveZoom:boolean
+    setLoadingHappened: () => void;
 }
 
-const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
+const MapLayer = ({properties, onlyShowOver, adaptiveZoom, setLoadingHappened}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
     let [oldMapZoom, setOldMapZoom] = useState<number>();
     let [oldMapBounds, setOldMapBounds] = useState<any>();
 
-
+    let [propTimeout, setPropTimeout] = useState<any>();
 
     const map = useMapEvents({
         zoomend:() => {
@@ -27,23 +28,34 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
         },
         load:() => {
             refereshVisibleProperties()
+        },
+        locationfound: () => {
+            refereshVisibleProperties()
         }
     })
-    //let zoom = map.getZoom()
-   // let bounds = map.getBounds()
 
 
     let refereshVisibleProperties = () => {
-        //let map = useMap();
-        //let zoom = map.getZoom()
-        //let bounds = map.getBounds()
-        //if(zoom !== oldMapZoom || bounds !== oldMapBounds){
+        
+        // CANCEL API-CALL
+        clearTimeout(propTimeout);
+        
+        // API CALL
+        setPropTimeout(setTimeout(function() {
+
+            let start = Date.now()
+
             setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
                 .filter((p) => map.getBounds().contains(p.property.point))
                 .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
-        //}
-       // setOldMapZoom(zoom)
-        //setOldMapBounds(bounds)
+
+                console.log('refereshVisibleProperties3')
+                console.log(Math.floor((Date.now() - start) / 1000))
+
+            setLoadingHappened()
+
+        }, 1000))
+
     }
 
     useEffect(() => {

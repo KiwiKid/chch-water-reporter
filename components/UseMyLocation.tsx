@@ -13,7 +13,7 @@ const UseMyLocation = () => {
     })
         
     const useMyLoc = () => {
-        map.locate()
+        map.locate({ watch: false})
     }
 
     const onLocate = (point:L.LatLng) => {
