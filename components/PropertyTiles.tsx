@@ -48,7 +48,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   }
 })
 
-const { groupedProperties, propertyCount, status, isMapLoading, onlyShowOver } = useProperties({
+const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoading, onlyShowOver } = useProperties({
   exculdeZeroUsage: true,
   mapBounds: map.getBounds(),
   mapZoom: map.getZoom(), 
@@ -93,6 +93,7 @@ const { groupedProperties, propertyCount, status, isMapLoading, onlyShowOver } =
         isShowingFull={isShowingFull}
         setIsShowingFull={setIsShowingFull}
         propertyCount={propertyCount}
+        showingPropertyCount={showingPropertyCount}
         />
 
 {/*}

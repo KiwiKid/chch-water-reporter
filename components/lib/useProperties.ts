@@ -18,6 +18,27 @@ interface UsePropertiesProps {
     mapBounds:LatLngBounds
 }
 
+const getOnlyShowOver = (mapZoom:number) => {
+    switch(mapZoom) {
+        // high zoom
+        case 13: 
+            return 9;
+        case 14: 
+            return 9;
+        case 15:
+            return 7;
+        case 16:
+            return 3;
+        case 17:
+            return 0;
+        case 18:
+            return 0;
+        default:
+            return 8;
+        }
+}
+
+
 const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UsePropertiesProps) => {
     const [status, setStatus] = useState<PropertyStatus>('idle');
     const [properties, setProperties] = useState<PropertyWithUsages[]>([]);
@@ -25,9 +46,8 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
     const [groupingAmount, setGroupingAmount] = useState<number>(0)
     const [isMapLoading, setIsMapLoading] = useState<boolean>(true)
 
-    const [onlyShowOver, setOnlyShowOver] = useState<number>(3)
-
-    
+    const [onlyShowOver, setOnlyShowOver] = useState<number>(7)
+    const [showingPropertyCount, setShowingPropertyCount] = useState<number>(0)
 
     localforage.config({
      //   driver      : localforage.WEBSQL, // Force WebSQL; same as using setDriver()
@@ -88,20 +108,8 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
     useEffect(() => {
       //  debounce(() => {
 
+      let onlyShowOver = getOnlyShowOver(mapZoom)
 
-      switch(mapZoom) {
-        // high zoom
-        case 15:
-            setOnlyShowOver(4)
-        case 16:
-            setOnlyShowOver(3)
-        case 17:
-            setOnlyShowOver(0)
-        case 17:
-            setOnlyShowOver(0)
-        default:
-            setOnlyShowOver(3)
-    }
 
             const groupingAmount = 500;
             setIsMapLoading(true)
@@ -141,11 +149,12 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
             setGroupedProperties(allGroupedProperties)
             setGroupingAmount(groupingAmount)
             setIsMapLoading(false)
-
+            setOnlyShowOver(onlyShowOver)
+            setShowingPropertyCount(filteredProperties.length)
        // }, 1000)
 
 
-    }, [properties, mapBounds, onlyShowOver, adaptiveZoom, mapZoom, mapBounds])
+    }, [properties, mapBounds, adaptiveZoom, mapZoom, mapBounds])
 
     return { status
         , properties
@@ -154,6 +163,7 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
         , propertyCount: properties.length
         , isMapLoading
         , onlyShowOver
+        , showingPropertyCount
     };
 };
 

@@ -1,9 +1,10 @@
 import { LatLng } from 'leaflet';
 import Image from 'next/image';
-import React, { useState } from 'react'
-import { useMap, useMapEvent, useMapEvents } from 'react-leaflet';
+import React from 'react'
+import { useMap } from 'react-leaflet';
 import { Button } from './Button';
 import { UseMyLocation } from './UseMyLocation'
+import CSS from 'csstype';
 
 const CHRISTCHURCH_CENTER = {
     latlng: new LatLng(-43.55, -187.370),
@@ -22,17 +23,19 @@ const CHRISTCHURCH_CENTER = {
     setIsShowingFull:(opt:boolean) => void
     isLoading:boolean
     propertyCount:number
+    showingPropertyCount:number
   }
 
-const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, setIsShowingFull, isLoading, propertyCount}:SettingsProps) => {
+const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, setIsShowingFull, isLoading, propertyCount, showingPropertyCount}:SettingsProps) => {
 
   const map = useMap();
 
   let resetMap = () => {
     map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
-    setAdaptiveZoom(CHRISTCHURCH_CENTER.zoom)
     // refereshVisibleProperties()
   }
+
+  const buttonStyle:CSS.Properties = { width: '33%' }
 
   return (
     <>
@@ -48,23 +51,19 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
         {!isShowingFull ? <div onClick={() => setIsShowingFull(true)} style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite`: ''}}>
             <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
           </div> :
-          <div style={{zIndex: 1500, backgroundColor: 'rgb(71 85 105)', padding: '0.7rem', borderRadius: 14, width: '40rem', height: '4rem', margin: 'auto'}} >
-            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-              <div className="w-1/6" style={{ fontSize: 'large'}}>
+          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', flexBasis: '10%', width: '38rem'}}>
+            <div onClick={() => setIsShowingFull(false)} style={{zIndex: 1500, backgroundColor: 'rgb(71 85 105)', padding: '0.7rem', borderRadius: 14, margin: 'auto'}} >
+              <div style={{ height: '4rem', fontSize: 'large', ...buttonStyle}}>
                 <div style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite`: ''}}>
-                  <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
+                 <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />&#9668;&#9668;
                 </div>
               </div>
-              <div className="w-1/6"><Button onClick={() => setIsShowingFull(false)}>Close</Button></div>
-              <div className="w-1/6"><Button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Show All' : 'Show most\n(Best Performance)'}{adaptiveZoom && onlyShowOver !== 0 ? <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</> : null}</Button></div>
-                                     {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
-              <div className="w-1/6"><Button onClick={() => resetMap()}>Reset Map</Button></div>
-              <div className="w-1/6"><UseMyLocation /></div>
-
-              <div className="w-1/6">{propertyCount} showing (zoom: {map.getZoom()}) onlyShowOver: {onlyShowOver}</div>
-
             </div>
-          </div>
+            <div style={buttonStyle}><Button onClick={() => setAdaptiveZoom(!adaptiveZoom)}>{adaptiveZoom ? 'Load All (can be slow)' : 'Load most\n(Best Performance)'}{adaptiveZoom && <><br/>({adaptiveZoom ? `${(10-onlyShowOver)*10}%` : '100%'} showing)</>}</Button></div>
+                                     {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
+                {/*<div className="w-1/6"><Button onClick={() => resetMap()}>Reset Map</Button></div>*/}
+            <div style={buttonStyle}><UseMyLocation /></div>
+            <div style={{ width: '25%', fontSize: 'medium'}} className="text-center">{showingPropertyCount} showing<br/>{propertyCount} total<br/>zoom: {map.getZoom()}</div>          </div>
         }
     </div>
     </>
