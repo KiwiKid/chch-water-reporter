@@ -13,8 +13,6 @@ type MapLayerProps = {
 const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
-    let [oldMapZoom, setOldMapZoom] = useState<number>();
-    let [oldMapBounds, setOldMapBounds] = useState<any>();
 
     let [propTimeout, setPropTimeout] = useState<any>();
 
@@ -42,14 +40,9 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
         // API CALL
         setPropTimeout(setTimeout(function() {
 
-            let start = Date.now()
-
             setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
                 .filter((p) => map.getBounds().contains(p.property.point))
                 .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
-
-                console.log('refereshVisibleProperties3')
-                console.log(Math.floor((Date.now() - start) / 1000))
 
         }, 1000))
 
