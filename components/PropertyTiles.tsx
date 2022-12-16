@@ -53,6 +53,7 @@ const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoa
   mapBounds: map.getBounds(),
   mapZoom: map.getZoom(), 
   adaptiveZoom: adaptiveZoom,
+  nonMap: false
 });
 /*
   let setLoadingHappened = () => {

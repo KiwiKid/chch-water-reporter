@@ -10,7 +10,7 @@ interface ByAmountUsedProps {
 }
 
 export default function ByAmountUsed({markerLine}:ByAmountUsedProps) {
-  const { status, properties } = useProperties({ exculdeZeroUsage: true});
+  const { status, properties } = useProperties({ exculdeZeroUsage: true, nonMap: true});
     const [propertyGroups, setPropertyGroups] = useState<Dictionary<PropertyWithUsages[]>>()
     const [data, setData] = useState<unknown[]>()
 

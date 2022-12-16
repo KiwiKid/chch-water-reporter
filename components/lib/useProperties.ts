@@ -13,12 +13,13 @@ export type CacheOptions = 'cache'|'file'|'no-cache'
 
 interface UsePropertiesProps {
     exculdeZeroUsage?:boolean
-    adaptiveZoom:boolean
-    mapZoom:number
-    mapBounds:LatLngBounds
+    adaptiveZoom?:boolean
+    mapZoom?:number
+    mapBounds?:LatLngBounds
+    nonMap:boolean
 }
 
-const getOnlyShowOver = (mapZoom:number) => {
+const getOnlyShowOver = (mapZoom?:number) => {
     switch(mapZoom) {
         // high zoom
         case 13: 
@@ -39,13 +40,14 @@ const getOnlyShowOver = (mapZoom:number) => {
 }
 
 
-const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UsePropertiesProps) => {
+const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds, nonMap}:UsePropertiesProps) => {
     const [status, setStatus] = useState<PropertyStatus>('idle');
     const [properties, setProperties] = useState<PropertyWithUsages[]>([]);
     const [groupedProperties, setGroupedProperties] = useState<Dictionary<PropertyWithUsages[]>>()
     const [groupingAmount, setGroupingAmount] = useState<number>(0)
+    
+    
     const [isMapLoading, setIsMapLoading] = useState<boolean>(true)
-
     const [onlyShowOver, setOnlyShowOver] = useState<number>(7)
     const [showingPropertyCount, setShowingPropertyCount] = useState<number>(0)
 
@@ -107,16 +109,15 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
 
     useEffect(() => {
       //  debounce(() => {
+        setIsMapLoading(true)
 
-      let onlyShowOver = getOnlyShowOver(mapZoom)
-
-
+            let onlyShowOver = getOnlyShowOver(mapZoom)
             const groupingAmount = 500;
-            setIsMapLoading(true)
+            
             let filteredProperties = properties
-                .filter((p) => mapBounds.contains(p.property.point))
-                .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom)
-                .filter((p) => p.property.point && p.usages.length > 0)
+                .filter((p) => nonMap || (mapBounds && mapBounds.contains(p.property.point)))
+                .filter((p) => nonMap || (p.randomGroup >= onlyShowOver || !adaptiveZoom))
+                .filter((p) => nonMap || (p.property.point && p.usages.length > 0 || !exculdeZeroUsage))
 
 
             const allGroupedProperties = _.groupBy(filteredProperties, (p) => {
@@ -154,7 +155,7 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UseP
        // }, 1000)
 
 
-    }, [properties, mapBounds, adaptiveZoom, mapZoom, mapBounds])
+    }, [properties, adaptiveZoom, mapZoom, mapBounds])
 
     return { status
         , properties

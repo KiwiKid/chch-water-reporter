@@ -10,7 +10,7 @@ interface ByHouseholdProps {
 }
 
 export default function ByHousehold({markerLine}:ByHouseholdProps) {
-  const { status, properties } = useProperties({ exculdeZeroUsage: true});
+  const { status, properties } = useProperties({ exculdeZeroUsage: true, nonMap: true});
     const [propertyGroups, setPropertyGroups] = useState<Dictionary<PropertyWithUsages[]>>()
     const [data, setData] = useState<unknown[]>()
     const windowSize = useWindowSize()
