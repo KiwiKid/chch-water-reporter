@@ -28,7 +28,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   const [adaptiveZoom, setAdaptiveZoom] = useState<boolean>(true)
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
+  // const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
 
   const map = useMapEvents({
     zoomend: (zoomEvt) => {
@@ -49,9 +49,12 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   },
   tileloadstart: () => {
     setIsLoading(true)
+  },
+  tileload: () => {
+    setIsLoading(false)
   }
 })
-
+/*
   let setLoadingHappened = () => {
     console.log('setIsLoading(true)')
     
@@ -63,7 +66,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       setIsLoading(false)
     }, 300))
   }
-
+*/
 
 
   return <>
@@ -78,7 +81,7 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       }).map((pKey) => {
          return (
           <LayersControl.Overlay checked key={`${pKey}`} name={`${pKey.substring(1, pKey.length)} (${groupedProperties[pKey].length})`}>
-            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} setLoadingHappened={setLoadingHappened}/>
+            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} />
           </LayersControl.Overlay>)
       })}
       </LayersControl>}

@@ -8,10 +8,9 @@ type MapLayerProps = {
     properties:PropertyWithUsages[]
     onlyShowOver:number
     adaptiveZoom:boolean
-    setLoadingHappened: () => void;
 }
 
-const MapLayer = ({properties, onlyShowOver, adaptiveZoom, setLoadingHappened}:MapLayerProps) => {
+const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
     let [oldMapZoom, setOldMapZoom] = useState<number>();
@@ -51,8 +50,6 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom, setLoadingHappened}:M
 
                 console.log('refereshVisibleProperties3')
                 console.log(Math.floor((Date.now() - start) / 1000))
-
-            setLoadingHappened()
 
         }, 1000))
 
