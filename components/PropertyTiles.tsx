@@ -46,19 +46,22 @@ export default function PropertyTiles({}:PropertyTilesProps) {
     }else if(zoom > 14){
       setOnlyShowOver(0)
     }
+  },
+  tileloadstart: () => {
+    setIsLoading(true)
   }
 })
 
   let setLoadingHappened = () => {
     console.log('setIsLoading(true)')
-    setIsLoading(true)
+    
     clearTimeout(isLoadingTimeout);
     
     // API CALL
     setIsLoadingTimeout(setTimeout(function() {
       console.log('setIsLoading')
       setIsLoading(false)
-    }, 1000))
+    }, 300))
   }
 
 
