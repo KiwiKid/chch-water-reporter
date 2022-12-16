@@ -155,7 +155,7 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds, nonM
        // }, 1000)
 
 
-    }, [properties, adaptiveZoom, mapZoom, mapBounds])
+    }, [properties, adaptiveZoom, mapZoom, mapBounds, nonMap, exculdeZeroUsage])
 
     return { status
         , properties
