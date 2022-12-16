@@ -17,7 +17,7 @@ const UseMyLocation = () => {
     }
 
     const onLocate = (point:L.LatLng) => {
-        map.flyTo(point, 16)
+        map.flyTo(point, 16, { animate: false})
         setIsLocated(true)
     }
 

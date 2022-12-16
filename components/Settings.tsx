@@ -29,6 +29,7 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
 
   let resetMap = () => {
     map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
+    setAdaptiveZoom(CHRISTCHURCH_CENTER.zoom)
     // refereshVisibleProperties()
   }
 

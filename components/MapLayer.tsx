@@ -50,7 +50,7 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
 
     useEffect(() => {
         refereshVisibleProperties()
-    }, [adaptiveZoom])
+    }, [adaptiveZoom, refereshVisibleProperties])
 
 
 return (
