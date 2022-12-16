@@ -6,17 +6,20 @@ import PropertyWithUsages, { CircleSizes } from "./PropertyWithUsage";
 
 type MapLayerProps = {
     properties:PropertyWithUsages[]
-    onlyShowOver:number
+   // onlyShowOver:number
     adaptiveZoom:boolean
 }
 
-const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
+const MapLayer = ({properties, adaptiveZoom}:MapLayerProps) => {
 
     let [visibleProperties, setVisibleProperties] = useState<PropertyWithUsages[]>()
 
     let [propTimeout, setPropTimeout] = useState<any>();
 
-    const map = useMapEvents({
+    const map = useMap();
+    
+    
+    /* {
         zoomend:() => {
             refereshVisibleProperties()
         },
@@ -30,32 +33,15 @@ const MapLayer = ({properties, onlyShowOver, adaptiveZoom}:MapLayerProps) => {
             refereshVisibleProperties()
         }
     })
-
-
-    let refereshVisibleProperties = () => {
-        
-        // CANCEL API-CALL
-        clearTimeout(propTimeout);
-        
-        // API CALL
-        setPropTimeout(setTimeout(function() {
-
-            setVisibleProperties(properties.filter((p) => p.property.point && p.usages.length > 0)
-                .filter((p) => map.getBounds().contains(p.property.point))
-                .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom))
-
-        }, 1000))
-
-    }
-
+/*
     useEffect(() => {
         refereshVisibleProperties()
     }, [adaptiveZoom, refereshVisibleProperties])
-
+*/
 
 return (
     <FeatureGroup>
-        {!visibleProperties ? null : visibleProperties
+        {!properties ? null : properties
             .map((p) =>     {
                 let circleSize = p.circleSizes[(map.getZoom().toString() as keyof CircleSizes)] || 300
                 return (<PropertyCircleMarker key={`${p.property.id}`} p={p} circleSize={circleSize}/>)

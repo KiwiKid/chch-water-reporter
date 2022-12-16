@@ -21,56 +21,39 @@ type PropertyTilesProps = {
 
 
 export default function PropertyTiles({}:PropertyTilesProps) {
-  const { status, groupedProperties, properties } = useProperties({exculdeZeroUsage: true});
-  const [onlyShowOver, setOnlyShowOver] = useState<number>(5)
+
+  // const [onlyShowOver, setOnlyShowOver] = useState<number>(5)
 
   const [isShowingFull, setIsShowingFull] = useState<boolean>(false)
 
   const [adaptiveZoom, setAdaptiveZoom] = useState<boolean>(true)
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
+ // const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const map = useMapEvents({
-    zoomend: (zoomEvt) => {
-      console.log('zoomend')
-      setIsLoading(true)
-
-    let zoom = zoomEvt.target._zoom;
-    if(zoom < 8){
-      setOnlyShowOver(7)
-    }else if(zoom == 9){
-      setOnlyShowOver(6)
-    }else if(zoom == 10){
-      setOnlyShowOver(5)
-    }else if(zoom == 12){
-      setOnlyShowOver(5)
-    }else if(zoom == 14){
-      setOnlyShowOver(3)
-    }else if(zoom > 14){
-      setOnlyShowOver(0)
-    }
-  },
-  tileloadstart: () => {
-  },
-  tileload: () => {
-    // clearTimeout(isLoadingTimeout);
-    
+    movestart: () => {
+   // setIsLoading(true)
   },
   layeradd: () => {
-    
-    setIsLoading(true)
-
-   // if(isLoadingTimeout) clearTimeout(isLoadingTimeout)
+  
+    /*setIsLoading(true)
+    if(isLoadingTimeout) clearTimeout(isLoadingTimeout)
 
     console.log('tileload')
     setIsLoadingTimeout(setTimeout(function() {
       console.log('setIsLoading')
       setIsLoading(false)
-    }, 300))
+    }, 300))*/
 
   }
 })
+
+const { groupedProperties, propertyCount, status, isMapLoading, onlyShowOver } = useProperties({
+  exculdeZeroUsage: true,
+  mapBounds: map.getBounds(),
+  mapZoom: map.getZoom(), 
+  adaptiveZoom: adaptiveZoom,
+});
 /*
   let setLoadingHappened = () => {
     console.log('setIsLoading(true)')
@@ -98,17 +81,18 @@ export default function PropertyTiles({}:PropertyTilesProps) {
       }).map((pKey) => {
          return (
           <LayersControl.Overlay checked key={`${pKey}`} name={`${pKey.substring(1, pKey.length)} (${groupedProperties[pKey].length})`}>
-            <MapLayer properties={groupedProperties[pKey]} onlyShowOver={onlyShowOver} adaptiveZoom={adaptiveZoom} />
+            <MapLayer properties={groupedProperties[pKey]} adaptiveZoom={adaptiveZoom} />
           </LayersControl.Overlay>)
       })}
-      </LayersControl>}
+      </LayersControl>}{groupedProperties && Object.keys(groupedProperties)}
       <Settings 
-        isLoading={isLoading}
+        isLoading={isMapLoading}
         adaptiveZoom={adaptiveZoom}
         setAdaptiveZoom={setAdaptiveZoom}
         onlyShowOver={onlyShowOver}
         isShowingFull={isShowingFull}
-        setIsShowingFull={setIsShowingFull} 
+        setIsShowingFull={setIsShowingFull}
+        propertyCount={propertyCount}
         />
 
 {/*}

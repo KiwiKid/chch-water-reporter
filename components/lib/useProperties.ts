@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import PropertyWithUsages from "../PropertyWithUsage";
 
 import testData from '../../pages/data/property_data.json'
-import _, { Dictionary } from "lodash";
+import _, { debounce, Dictionary, map } from "lodash";
+import { LatLng, LatLngBounds } from "leaflet";
 
 export type PropertyStatus = 'idle'|'fetching'|'fetched'
 
@@ -12,14 +13,21 @@ export type CacheOptions = 'cache'|'file'|'no-cache'
 
 interface UsePropertiesProps {
     exculdeZeroUsage?:boolean
+    adaptiveZoom:boolean
+    mapZoom:number
+    mapBounds:LatLngBounds
 }
 
-const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
+const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds}:UsePropertiesProps) => {
     const [status, setStatus] = useState<PropertyStatus>('idle');
     const [properties, setProperties] = useState<PropertyWithUsages[]>([]);
     const [groupedProperties, setGroupedProperties] = useState<Dictionary<PropertyWithUsages[]>>()
     const [groupingAmount, setGroupingAmount] = useState<number>(0)
+    const [isMapLoading, setIsMapLoading] = useState<boolean>(true)
 
+    const [onlyShowOver, setOnlyShowOver] = useState<number>(3)
+
+    
 
     localforage.config({
      //   driver      : localforage.WEBSQL, // Force WebSQL; same as using setDriver()
@@ -78,34 +86,75 @@ const useProperties = ({exculdeZeroUsage}:UsePropertiesProps) => {
     }, [exculdeZeroUsage]);
 
     useEffect(() => {
-        const groupingAmount = 500;
-        setGroupedProperties(_.groupBy(properties, (p) => {
-            switch(p.styleData.colorClass){
-                case 'low-level':{
-                    return `1<500 Lts`
-                }
-                case 'med-level':{
-                    return `2500-700 Lts`
-                }
-                case 'high-level':{
-                    return `3700-2000 Lts`
-                }
-                case 'vhigh-level':{
-                    return `4>2000 Lts`
-                }
-            }
+      //  debounce(() => {
 
-            /*if(p.averageUsage < 1000){ 
-                const groupNumber:number = +(p.averageUsage / groupingAmount).toFixed(0)
-                return `${(groupNumber*groupingAmount).toString()}-${((groupNumber+1)*groupingAmount).toString()} Ltr`
-            }else{
-                return '>1000 Ltr'
-            }*/
-        }))
-        setGroupingAmount(groupingAmount)
-    }, [properties])
 
-    return { status, properties, groupedProperties, groupingAmount };
+      switch(mapZoom) {
+        // high zoom
+        case 15:
+            setOnlyShowOver(4)
+        case 16:
+            setOnlyShowOver(3)
+        case 17:
+            setOnlyShowOver(0)
+        case 17:
+            setOnlyShowOver(0)
+        default:
+            setOnlyShowOver(3)
+    }
+
+            const groupingAmount = 500;
+            setIsMapLoading(true)
+            let filteredProperties = properties
+                .filter((p) => mapBounds.contains(p.property.point))
+                .filter((p) => p.randomGroup >= onlyShowOver || !adaptiveZoom)
+                .filter((p) => p.property.point && p.usages.length > 0)
+
+
+            const allGroupedProperties = _.groupBy(filteredProperties, (p) => {
+                switch(p.styleData.colorClass){
+                    case 'low-level':{
+                        return `1<500 Lts`
+                    }
+                    case 'med-level':{
+                        return `2500-700 Lts`
+                    }
+                    case 'high-level':{
+                        return `3700-2000 Lts`
+                    }
+                    case 'vhigh-level':{
+                        return `4>2000 Lts`
+                    }
+                    default: 
+                        console.error('no match?', p)
+                }
+
+                /*if(p.averageUsage < 1000){ 
+                    const groupNumber:number = +(p.averageUsage / groupingAmount).toFixed(0)
+                    return `${(groupNumber*groupingAmount).toString()}-${((groupNumber+1)*groupingAmount).toString()} Ltr`
+                }else{
+                    return '>1000 Ltr'
+                }*/
+            })
+
+            console.log(`setGroupedProperties ${allGroupedProperties} ${filteredProperties.length}`)
+            setGroupedProperties(allGroupedProperties)
+            setGroupingAmount(groupingAmount)
+            setIsMapLoading(false)
+
+       // }, 1000)
+
+
+    }, [properties, mapBounds, onlyShowOver, adaptiveZoom, mapZoom, mapBounds])
+
+    return { status
+        , properties
+        , groupedProperties
+        , groupingAmount
+        , propertyCount: properties.length
+        , isMapLoading
+        , onlyShowOver
+    };
 };
 
 export {
