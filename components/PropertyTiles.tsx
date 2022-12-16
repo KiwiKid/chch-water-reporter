@@ -11,6 +11,7 @@ import { MapLayer } from './MapLayer'
 import { Button } from './Button'
 import { Settings } from './Settings'
 import Image from 'next/image'
+import { clearTimeout } from "timers";
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type PropertyTilesProps = {   
@@ -28,10 +29,13 @@ export default function PropertyTiles({}:PropertyTilesProps) {
   const [adaptiveZoom, setAdaptiveZoom] = useState<boolean>(true)
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  // const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
+  const [isLoadingTimeout, setIsLoadingTimeout] = useState<any>(true)
 
   const map = useMapEvents({
     zoomend: (zoomEvt) => {
+      console.log('zoomend')
+      setIsLoading(true)
+
     let zoom = zoomEvt.target._zoom;
     if(zoom < 8){
       setOnlyShowOver(7)
@@ -48,10 +52,23 @@ export default function PropertyTiles({}:PropertyTilesProps) {
     }
   },
   tileloadstart: () => {
-    setIsLoading(true)
   },
   tileload: () => {
-    setIsLoading(false)
+    // clearTimeout(isLoadingTimeout);
+    
+  },
+  layeradd: () => {
+    
+    setIsLoading(true)
+
+   // if(isLoadingTimeout) clearTimeout(isLoadingTimeout)
+
+    console.log('tileload')
+    setIsLoadingTimeout(setTimeout(function() {
+      console.log('setIsLoading')
+      setIsLoading(false)
+    }, 300))
+
   }
 })
 /*
