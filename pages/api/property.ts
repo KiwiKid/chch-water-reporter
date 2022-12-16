@@ -20,12 +20,17 @@ export default async function handler(
 
   const propertiesResponse = await fetch(`${serverUrl}/chch-water-property/all`)
   const propertyRaw = await propertiesResponse.json()
+
+  console.log(`got ${propertyRaw.length} properties`)
     
   const properties = propertyRaw.property.map((p:Property) => new Property(p))
 
   const usagesResponse = await fetch(`${serverUrl}/chch-water-usage/all`)
   const usagesRaw = await usagesResponse.json();
   const usages = usagesRaw.usages.map((p:Usage) => new Usage(p));
+
+
+  console.log(`got ${usages.length} usages`)
 
   const joiner = new PropertyWithUsageGenerator(properties, usages)
   const propsWithUsage = joiner.getPropertyUsages()
