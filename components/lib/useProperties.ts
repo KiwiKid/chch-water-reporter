@@ -29,7 +29,7 @@ const getOnlyShowOver = (mapZoom?:number) => {
         case 15:
             return 7;
         case 16:
-            return 3;
+            return 0;
         case 17:
             return 0;
         case 18:

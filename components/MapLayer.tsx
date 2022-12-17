@@ -43,7 +43,7 @@ return (
     <FeatureGroup>
         {!properties ? null : properties
             .map((p) =>     {
-                let circleSize = p.circleSizes[(map.getZoom().toString() as keyof CircleSizes)] || 300
+                let circleSize = p.circleSizes[(map.getZoom().toString() as keyof CircleSizes)] || 1
                 return (<PropertyCircleMarker key={`${p.property.id}`} p={p} circleSize={circleSize}/>)
             })}
     </FeatureGroup>
