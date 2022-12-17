@@ -70,9 +70,9 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
             </tbody>
           </table>
         </div>
-        <div style={bordered}>
+        {/*div style={bordered}>
           <Button className="m-auto w-full" onClick={() => window.open(`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`)}>Compare</Button>
-        </div>
+            </div>*/}
         {process.env.REACT_APP_DEBUG === 'true' && <pre>
           {JSON.stringify(p.usages, null ,4)}
           </pre>}
