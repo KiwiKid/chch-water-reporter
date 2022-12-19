@@ -35,7 +35,7 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
     // refereshVisibleProperties()
   }
 
-  const buttonStyle:CSS.Properties = { width: '33%' }
+  const buttonStyle:CSS.Properties = { width: '33%', textAlign: 'center' }
 
   return (
     <>
@@ -47,13 +47,13 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
       }
       `}
     </style>
-    <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 50, left: 10, padding: '0.7rem', borderRadius: 14}}>
+    <div style={{zIndex: 1500, position: 'absolute', backgroundColor: 'rgb(71 85 105)', bottom: 50, left: 10, padding: '0.3rem', borderRadius: 14}}>
         {!isShowingFull ? <div onClick={() => setIsShowingFull(true)} style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite`: ''}}>
             <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
           </div> :
-          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', flexBasis: '10%', width: '38rem'}}>
-            <div onClick={() => setIsShowingFull(false)} style={{zIndex: 1500, backgroundColor: 'rgb(71 85 105)', padding: '0.7rem', borderRadius: 14, margin: 'auto'}} >
-              <div style={{ height: '4rem', fontSize: 'large', ...buttonStyle}}>
+          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '30rem', height: '4rem', lineHeight: '1rem'}}>
+            <div onClick={() => setIsShowingFull(false)} style={{zIndex: 1500, padding: '0.3rem', borderRadius: 14}} >
+              <div style={{ fontSize: 'large'}}>
                 <div style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite`: ''}}>
                  <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />&#9668;&#9668;
                 </div>

@@ -8,7 +8,7 @@ interface ButtonProps {
 
 function Button({children, onClick, className}:ButtonProps){
     
-    return (<button className={` ${className} bg-gray-100 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center}`} onClick={onClick} style={{minHeight:'60px', minWidth:'150px'}}>
+    return (<button className={` ${className} bg-gray-100 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center}`} onClick={onClick} style={{minHeight:'50px', minWidth:'120px'}}>
         {children}
   </button>)
 }
