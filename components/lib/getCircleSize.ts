@@ -6,9 +6,9 @@ const MAX_CIRCLE_SIZE = 5000;
 const getCircleSize = (averageUsage:number, zoom:number) => {
     let scaleFactor = 0.000
     if(zoom === 18){
-        scaleFactor = 0.0010
+        scaleFactor = 0.0014
     }else if(zoom >= 16){
-        scaleFactor = 0.0010
+        scaleFactor = 0.0012
     }else if(zoom >= 14){
         scaleFactor = 0.0010
     }else if(zoom >= 10){
@@ -18,7 +18,7 @@ const getCircleSize = (averageUsage:number, zoom:number) => {
     }else if(zoom >= 6){
         scaleFactor = 0.0007
     }else{
-        scaleFactor = 0.0001
+        scaleFactor = 0.0002
     }
     return Math.min(Math.max((averageUsage/2), MIN_CIRCLE_SIZE), MAX_CIRCLE_SIZE)*(scaleFactor*zoom)
 }

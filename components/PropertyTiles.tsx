@@ -12,6 +12,7 @@ import { Button } from './Button'
 import { Settings } from './Settings'
 import Image from 'next/image'
 import { clearTimeout } from "timers";
+import { LoadingText } from "./LoadingText";
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type PropertyTilesProps = {   
@@ -71,8 +72,8 @@ const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoa
 
 
   return <>
-    {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
-    {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
+    {status === 'fetching' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><LoadingText/></div>}
+    {status === 'idle' && <div style={{textAlign: 'center', width: '100%', color: 'black'}}><LoadingText/></div>}
     {status === 'fetched' && !!groupedProperties && <LayersControl position="topright">
       {Object.keys(groupedProperties).sort((a:string, b:string) => {
         const startingCharA = parseInt(a.substring(0, 1))

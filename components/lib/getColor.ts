@@ -5,8 +5,8 @@ const COLOR_RANGE_BOTTOM = 300
 const COLOR_RANGE_TOP = 3000
 
 const colorMap:StyleData[] = [
-  {colorClass: 'low-level', colorCode:'#9BA4AA', min: 0, max: 500},
-  {colorClass: 'med-level', colorCode: '#8FA6C4', min: 500, max: 700},
+  {colorClass: 'low-level', colorCode:'#61bdfa', min: 0, max: 500},
+  {colorClass: 'med-level', colorCode: '#376bb0', min: 500, max: 700},
   {colorClass: 'high-level', colorCode: '#3D769F', min: 700, max: 2000},
   {colorClass: 'vhigh-level', colorCode: '#0909FF', min: 2000, max: 9999999},
 ]

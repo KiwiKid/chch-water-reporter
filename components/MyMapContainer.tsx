@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic"
 import React from "react";
 import { useEffect, useState } from "react";
-import About from "./About";
-//import { LatLng } from 'leaflet'
-// position={new LatLng(123,13)}
+import { LoadingText } from './LoadingText'
+
 type MyMapContainerProps = {
   // children:JSX.Element
 }
@@ -11,7 +10,7 @@ type MyMapContainerProps = {
 const LeafletMap = dynamic(import('./LeafletMap'), {
   ssr: false,
   loading: () => (
-    <div style={{textAlign: 'center', width: '100%'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>
+    <div style={{textAlign: 'center', width: '100%'}}><LoadingText/></div>
   )
 })
 

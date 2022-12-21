@@ -5,7 +5,8 @@ import { useMap } from 'react-leaflet';
 import { Button } from './Button';
 import { UseMyLocation } from './UseMyLocation'
 import CSS from 'csstype';
-import { ShareBar } from './ShareBar'
+import { CopyButton } from './CopyButton'
+
 
 const CHRISTCHURCH_CENTER = {
     latlng: new LatLng(-43.55, -187.370),
@@ -36,7 +37,7 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
     // refereshVisibleProperties()
   }
 
-  const buttonStyle:CSS.Properties = { width: '33%', textAlign: 'center' }
+  const buttonStyle:CSS.Properties = { width: '20%', textAlign: 'center' }
 
   return (
     <>
@@ -53,8 +54,8 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
             <Image alt="open settings" src={'/settings.svg'} width={30} height={30} />
           </div> :
           <>
-            <div style={{ width: '100%', height: '2rem' }}>
-              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '30rem', height: '4rem', lineHeight: '1rem' }} >
+            <div style={{ width: '100%', height: '4rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '45rem', lineHeight: '1rem' }} >
                 <div onClick={() => setIsShowingFull(false)} style={{ zIndex: 1500, padding: '0.3rem', borderRadius: 14 }}>
                   <div style={{ fontSize: 'large' }}>
                     <div style={{ width: '2rem', height: '2rem', animation: isLoading ? `spin 2s linear infinite` : '' }}>
@@ -66,11 +67,9 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
                 {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
                 {/*<div className="w-1/6"><Button onClick={() => resetMap()}>Reset Map</Button></div>*/}
                 <div style={buttonStyle}><UseMyLocation /></div>
+                <div style={buttonStyle}><CopyButton text={'https://chch-water-reporter.vercel.app'} /></div>
                 <div style={{ width: '25%', fontSize: 'medium' }} className="text-center">{showingPropertyCount} showing<br />{propertyCount} total<br />zoom: {map.getZoom()}</div>
               </div>
-            </div>
-            <div style={{ width: '100%', height: '100px' }}>
-              <ShareBar url={'http://chch-water-reporter.app'} />
             </div>
           </>
         }

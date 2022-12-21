@@ -4,7 +4,7 @@ import { useProperties } from "./lib/useProperties";
 import PropertyWithUsages from "./PropertyWithUsage";
 import { CartesianGrid, Label, YAxis, XAxis, ReferenceLine, Line, Bar, ResponsiveContainer, BarChart } from 'recharts'
 import useWindowSize from "./lib/useWindowSize";
-
+import { LoadingText } from './LoadingText'
 interface ByHouseholdProps {
   markerLine?:number
 }
@@ -39,7 +39,7 @@ export default function ByHousehold({markerLine}:ByHouseholdProps) {
 
   return (<>
     <div style={{textAlign: 'center', padding: '10px '}}><h1># of households(y) vs avg hundreds of litres(x)</h1></div>
-      {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><h1>Loading (this should take approximately 10 seconds)...</h1></div>}
+      {(status === 'fetching' || status === 'idle') && <div style={{textAlign: 'center', width: '100%', color: 'black', backgroundColor: 'white'}}><LoadingText/></div>}
       {status === 'fetched' && propertyGroups && <div style={{textAlign: 'center', width: '100%', backgroundColor: 'white', color: 'black'}}>
         <div>
           This shows the number of households that use a similar amount of water - broken into 100 ltr groups (0-100, 100-200 etc)

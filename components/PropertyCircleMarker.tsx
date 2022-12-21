@@ -34,19 +34,19 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
       center={p.property.point}
     >
       {p && <Popup>
-        {p.averageUsage && <h3 data-rating-unit-id={p.property.RatingUnitID}>
+        {p.averageUsage > 0 && <h3 data-rating-unit-id={p.property.RatingUnitID}>
           <div className="grid grid-cols-1" style={bordered}>
             <div style={{textAlign: 'left'}}><span style={{textDecoration:'underline', fontSize: `1.8rem`}}>{p.averageUsage.toFixed(0)}</span> ltrs per day
             </div>
           </div>
-          <div style={bordered}>
-            {usageData.length > 0 && <LineChart width={popupWidth} height={120} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+          {usageData.length > 0 && <div style={bordered}>
+            <LineChart width={popupWidth} height={120} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <YAxis fontSize="0.8rem"><Label fontSize="1.1rem" dx={-24} angle={270} position="outside" value="lts per day"/></YAxis>
               <Tooltip />
               <Line type="monotone" dataKey="level" stroke="#8884d8" />
-            </LineChart>}
-          </div>
+            </LineChart>
+          </div>}
         </h3>}
         <div style={bordered}>
           <table width={popupWidth} > 
