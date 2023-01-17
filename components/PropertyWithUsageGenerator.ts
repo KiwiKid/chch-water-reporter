@@ -13,14 +13,22 @@ class PropertyWithUsageGenerator {
     this.allUsages = allUsages;
   }
 
+  /*#removeDuplicates = (all:PropertyWithUsages[]):PropertyWithUsages[] =>{
+    let seen = new Set();
+    return all.filter(item => {
+        let k = `${item.averageUsage}${item.property.lat}${item.property.lng}`
+        return seen.has(k) ? false : seen.add(k);
+    });
+  }*/
+
   getPropertyUsages = ():PropertyWithUsages[] => {
     return this.allProperties.map((p) => {
-
       
-      const propertyWithUsage = new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
+      const propertiesWithUsages = new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
 
-      propertyWithUsage.numberGreaterThan = this.getPropertyMedian(propertyWithUsage.averageUsage)
-      return propertyWithUsage;
+      propertiesWithUsages.numberGreaterThan = this.getPropertyMedian(propertiesWithUsages.averageUsage)
+
+      return propertiesWithUsages;
     })
   }
 
