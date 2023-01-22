@@ -1,7 +1,7 @@
 import { LatLng } from 'leaflet';
 import Image from 'next/image';
-import React from 'react'
-import { useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react'
+import { useMap, useMapEvents } from 'react-leaflet';
 import { Button } from './Button';
 import { UseMyLocation } from './UseMyLocation'
 import CSS from 'csstype';
@@ -30,7 +30,38 @@ const CHRISTCHURCH_CENTER = {
 
 const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, setIsShowingFull, isLoading, propertyCount, showingPropertyCount}:SettingsProps) => {
 
-  const map = useMap();
+
+  const [url, setUrl] = useState<string>('https://chch-water-reporter.vercel.app');
+  const [zoom, setZoom] = useState<number>();
+  const [position, setPosition] = useState<LatLng>();
+
+
+  useEffect(() => {
+    if(!zoom || !position){
+      return;
+    }
+    setUrl(`https://chch-water-reporter.vercel.app?zoom=${zoom}&lat=${position.x}&lng=${position.y}`)    
+  }, [zoom, position])
+ 
+
+  
+
+  const map = useMapEvents({
+    'dragend': (evt) => {
+      debugger;
+      console.log('dragend')
+      console.log(evt)
+      setPosition(evt.sourceTarget._newPos)
+    },
+    'zoomend': (evt) => {
+      console.log('zoomend')
+      console.log(evt)
+      setZoom(evt.sourceTarget._zoom)
+    }
+  }
+    );
+
+
 
   let resetMap = () => {
     map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
@@ -67,7 +98,7 @@ const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, s
                 {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
                 {/*<div className="w-1/6"><Button onClick={() => resetMap()}>Reset Map</Button></div>*/}
                 <div style={buttonStyle}><UseMyLocation /></div>
-                <div style={buttonStyle}><CopyButton text={'https://chch-water-reporter.vercel.app'} /></div>
+                <div style={buttonStyle}><CopyButton text={url} /></div>
                 <div style={{ width: '25%', fontSize: 'medium' }} className="text-center">{showingPropertyCount} showing<br />{propertyCount} total<br />zoom: {map.getZoom()}</div>
               </div>
             </div>

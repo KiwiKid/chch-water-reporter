@@ -1,16 +1,38 @@
 import Property from "./Property";
 import PropertyWithUsages from "./PropertyWithUsage";
-import Usage from "./Usage";
+import Usage, { MonthString } from "./Usage";
 
 class PropertyWithUsageGenerator {
   allProperties:Property[]
   allUsages:Usage[]
 
-  allPropertiesWithUsages?:PropertyWithUsages[];
+  medianMap:Map<string,number>
+
+  allPropertiesWithUsages:PropertyWithUsages[];
 
   constructor(allProperties: Property[], allUsages: Usage[]) {
     this.allProperties = allProperties;
     this.allUsages = allUsages;
+
+    this.allPropertiesWithUsages = this.allProperties.map((p) => {
+
+      return new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
+
+      // propertiesWithUsages.numberGreaterThan = this.getPropertyMedian(propertiesWithUsages.averageUsage)
+
+    })
+
+    this.medianMap = new Map<MonthString, number>()
+
+    this.allPropertiesWithUsages.forEach((p) => {
+      p.usages.forEach((u:Usage) => {
+
+        if(this.medianMap.has(u.month)){
+          this.medianMap.set()
+        }
+      })
+      
+    })
   }
 
   /*#removeDuplicates = (all:PropertyWithUsages[]):PropertyWithUsages[] =>{
@@ -20,21 +42,6 @@ class PropertyWithUsageGenerator {
         return seen.has(k) ? false : seen.add(k);
     });
   }*/
-
-  getPropertyUsages = ():PropertyWithUsages[] => {
-    return this.allProperties.map((p) => {
-      
-      const propertiesWithUsages = new PropertyWithUsages(p, this.allUsages.filter((u) => u.property_id === p.RatingUnitID) || [])
-
-      propertiesWithUsages.numberGreaterThan = this.getPropertyMedian(propertiesWithUsages.averageUsage)
-
-      return propertiesWithUsages;
-    })
-  }
-
-  getPropertyMedian = (usage:number):number => {
-    return this.allPropertiesWithUsages ? this.allPropertiesWithUsages.filter((ap) => ap.averageUsage < usage).length : 0
-  }
 }
 
 export default PropertyWithUsageGenerator

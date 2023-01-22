@@ -28,10 +28,10 @@ class Fetcher {
         console.log(`got ${usages.length} usages`)
 
         const joiner = new PropertyWithUsageGenerator(properties, usages)
-        const propsWithUsage = joiner.getPropertyUsages()
+        // const propsWithUsage = joiner.getPropertyUsages()
 
         
-        const propertiesToReturn = propsWithUsage.filter((p) => p.usages.length !== 0)
+        const propertiesToReturn = joiner.allPropertiesWithUsages
 
         return propertiesToReturn
     }
