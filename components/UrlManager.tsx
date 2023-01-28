@@ -11,13 +11,13 @@ class UrlManager extends React.Component {
     postion:[number,number]
     mapMoveSettledUpdate?:ReturnType<typeof setTimeout>
     query?:string
-    router:NextRouter
+   // router:NextRouter
 
     constructor(props:Props){
         super(props)
-        this.router = useRouter();
-        this.zoom = props.startingZoom;
-        this.postion = props.startingPosition;
+    //    this.router = useRouter();
+        this.zoom = props.zoom;
+        this.postion = props.postion;
     }
 
     updateZoom(zoom:number, next:any){
@@ -26,31 +26,26 @@ class UrlManager extends React.Component {
         var self = this;
         clearTimeout(this.mapMoveSettledUpdate)
 
-        this.mapMoveSettledUpdate = setTimeout(function() {
-            self.query = `/?zoom=${self.zoom}&lat=${self.postion[0]}&lng=${self.postion[1]}`
-            self.router.push(`${self.query}`,undefined, { shallow: true})
-        }, 3000)
+        self.query = `/?zoom=${self.zoom}&lat=${self.postion[0]}&lng=${self.postion[1]}`
 
         next()
     }
 
     updatePosition(postion:[number,number], next:any){
-        var self = this;
-        self.postion = postion;
+        this.postion = postion;
         clearTimeout(this.mapMoveSettledUpdate)
 
-        this.mapMoveSettledUpdate = setTimeout(function() {
-            self.query = `/?zoom=${self.zoom}&lat=${postion[0]}&lng=${postion[1]}`
-            self.router.push(`${self.query}`,undefined, { shallow: true})
-        }, 3000)
+        this.query = `/?zoom=${this.zoom}&lat=${postion[0]}&lng=${postion[1]}`
+        //    self.router.push(`${self.query}`,undefined, { shallow: true})
         next()
     }
 
     getUrl():string{
+        const baseUrl = window.location?.origin != null ? window.location.origin : ''
         if(!!this.query){
-            return `https://chch-water-reporter.vercel.app${this.query}`
+            return `${baseUrl}${this.query}`
         }
-        return `https://chch-water-reporter.vercel.app`
+        return baseUrl
     }
 
     render(): React.ReactNode {

@@ -48,18 +48,15 @@ const Settings = ({
 
   const map = useMapEvents({
     'zoomend':(evt) => {
-      urlManager.updateZoom(evt.sourceTarget._zoom, () => router.push(urlManager.getUrl(),undefined, { shallow: true}))
+      urlManager.updateZoom(evt.sourceTarget._zoom, () => router.push(urlManager.getUrl(), undefined, { shallow: true}))
     },
     'moveend':(evt) => {
-      urlManager.updateZoom(evt.sourceTarget._zoom, () => router.push(urlManager.getUrl(),undefined, { shallow: true}))
-
-     // urlManager.updatePosition([evt.sourceTarget._lastCenter.lat, evt.sourceTarget._lastCenter.lng])
+      urlManager.updatePosition([evt.sourceTarget._lastCenter.lat, evt.sourceTarget._lastCenter.lng], () => router.push(urlManager.getUrl(), undefined, { shallow: true}))
     } 
   });
   
   let resetMap = () => {
     map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
-    // refereshVisibleProperties()
   }
 
   const buttonStyle:CSS.Properties = { width: '20%', textAlign: 'center' }
