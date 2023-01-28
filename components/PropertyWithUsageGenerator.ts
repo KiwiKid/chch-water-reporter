@@ -6,7 +6,7 @@ class PropertyWithUsageGenerator {
   allProperties:Property[]
   allUsages:Usage[]
 
-  medianMap:Map<string,number>
+//  monthGroups:Map<string,number>
 
   allPropertiesWithUsages:PropertyWithUsages[];
 
@@ -21,18 +21,22 @@ class PropertyWithUsageGenerator {
       // propertiesWithUsages.numberGreaterThan = this.getPropertyMedian(propertiesWithUsages.averageUsage)
 
     })
-
-    this.medianMap = new Map<MonthString, number>()
+/*
+    this.monthGroups = new Map<MonthString, number[]>()
 
     this.allPropertiesWithUsages.forEach((p) => {
       p.usages.forEach((u:Usage) => {
 
-        if(this.medianMap.has(u.month)){
-          this.medianMap.set()
+        const existingMonthGroup = 
+        if(this.monthGroups.has(u.month)){
+          
+          let existingAvg = Math.average(this.monthGroups.get(u.month))S
+
+          this.monthGroups.set()
         }
       })
       
-    })
+    })*/
   }
 
   /*#removeDuplicates = (all:PropertyWithUsages[]):PropertyWithUsages[] =>{
