@@ -8,6 +8,7 @@ import CSS from 'csstype';
 import { CopyButton } from './CopyButton'
 import { UrlManager } from './UrlManager'
 import { defaultPosition } from './defaultPosition';
+import { useRouter } from 'next/router';
 
 
 const CHRISTCHURCH_CENTER = {
@@ -41,15 +42,18 @@ const Settings = ({
   , showingPropertyCount
 }:SettingsProps) => {
 
-  const urlManager = new UrlManager(defaultPosition.zoom, defaultPosition.center)
+  const urlManager = new UrlManager({zoom: defaultPosition.zoom, postion: defaultPosition.center})
 
+  let router = useRouter()
 
   const map = useMapEvents({
     'zoomend':(evt) => {
-      urlManager.updateZoom(evt.sourceTarget._zoom)
+      urlManager.updateZoom(evt.sourceTarget._zoom, () => router.push(urlManager.getUrl(),undefined, { shallow: true}))
     },
     'moveend':(evt) => {
-      urlManager.updatePosition([evt.sourceTarget._lastCenter.lat, evt.sourceTarget._lastCenter.lng])
+      urlManager.updateZoom(evt.sourceTarget._zoom, () => router.push(urlManager.getUrl(),undefined, { shallow: true}))
+
+     // urlManager.updatePosition([evt.sourceTarget._lastCenter.lat, evt.sourceTarget._lastCenter.lng])
     } 
   });
   
@@ -88,7 +92,7 @@ const Settings = ({
                 {/*<div>{groupedProperties ? Object.keys(groupedProperties).reduce((prev, key) => prev+= groupedProperties[key].length, 0) : 0 } loaded</div>*/}
                 {/*<div className="w-1/6"><Button onClick={() => resetMap()}>Reset Map</Button></div>*/}
                 <div style={buttonStyle}><UseMyLocation /></div>
-                <div style={buttonStyle}><CopyButton text={url} /></div>
+                <div style={buttonStyle}><CopyButton text={urlManager.getUrl()} /></div>
                 <div style={{ width: '25%', fontSize: 'medium' }} className="text-center">{showingPropertyCount} showing<br />{propertyCount} total<br />zoom: {map.getZoom()}</div>
               </div>
             </div>
