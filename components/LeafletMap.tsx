@@ -1,29 +1,31 @@
-import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import PropertyTiles from '../components/PropertyTiles';
+import PropertyTiles from './PropertyTiles';
 import useWindowSize from './lib/useWindowSize';
 import { useRouter } from 'next/router';
-
+import { defaultPosition } from './defaultPosition'
 
 type LeafletMapProps = {
 
 }
 
+
+
 export default  function LeafletMap({}:LeafletMapProps) {
  const router = useRouter()
 
- const { zoom, lat, lng } = router.query;
+ const pageQuery = router.query;
  const {width, height} = useWindowSize()
 
- const startingZoom = typeof zoom === 'string' && parseInt(zoom) ? parseInt(zoom) : 14
+ const startingZoom = typeof pageQuery.zoom === 'string' && parseInt(pageQuery.zoom) ? parseInt(pageQuery.zoom) : 14
 
  const startingLocation:[number, number] = 
-        typeof lat === 'string' && parseFloat(lat) && 
-        typeof lng === 'string' && parseFloat(lng) 
-          ? [parseFloat(lat), parseFloat(lng)] 
-          : [-43.530975, 172.637780]
- 
+  typeof pageQuery.lat === 'string' && parseFloat(pageQuery.lat) && 
+  typeof pageQuery.lng === 'string' && parseFloat(pageQuery.lng) 
+    ? [parseFloat(pageQuery.lat), parseFloat(pageQuery.lng)] 
+    : defaultPosition.center
+  
 return <>
   <style>{`
     .leaflet-container {
@@ -35,13 +37,16 @@ return <>
       font-size: 1.6rem;
     }
   `}</style><></>
-    {width && height && <div style={{ "height": `${height}px`, "width": `${width}px`}}>
-        <MapContainer minZoom={13} preferCanvas={true} center={startingLocation} zoom={startingZoom} ref={(ref) => { }}>
+    {width && height && <div style={{ "height": `${height || 800}px`, "width": `${width || 400}px`}}>
+        <MapContainer 
+          minZoom={13}
+          preferCanvas={true}
+          center={startingLocation}
+          zoom={startingZoom}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <PropertyTiles />
-
         </MapContainer>
     </div>}
   </>

@@ -1,11 +1,13 @@
 import { LatLng } from 'leaflet';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import { useMap, useMapEvents } from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import { Button } from './Button';
 import { UseMyLocation } from './UseMyLocation'
 import CSS from 'csstype';
 import { CopyButton } from './CopyButton'
+import { UrlManager } from './UrlManager'
+import { defaultPosition } from './defaultPosition';
 
 
 const CHRISTCHURCH_CENTER = {
@@ -28,41 +30,29 @@ const CHRISTCHURCH_CENTER = {
     showingPropertyCount:number
   }
 
-const Settings = ({adaptiveZoom, setAdaptiveZoom, onlyShowOver, isShowingFull, setIsShowingFull, isLoading, propertyCount, showingPropertyCount}:SettingsProps) => {
+const Settings = ({
+  adaptiveZoom
+  , setAdaptiveZoom
+  , onlyShowOver
+  , isShowingFull
+  , setIsShowingFull
+  , isLoading
+  , propertyCount
+  , showingPropertyCount
+}:SettingsProps) => {
 
+  const urlManager = new UrlManager(defaultPosition.zoom, defaultPosition.center)
 
-  const [url, setUrl] = useState<string>('https://chch-water-reporter.vercel.app');
-  const [zoom, setZoom] = useState<number>();
-  const [position, setPosition] = useState<LatLng>();
-
-
-  useEffect(() => {
-    if(!zoom || !position){
-      return;
-    }
-    setUrl(`https://chch-water-reporter.vercel.app?zoom=${zoom}&lat=${position.x}&lng=${position.y}`)    
-  }, [zoom, position])
- 
-
-  
 
   const map = useMapEvents({
-    'dragend': (evt) => {
-      debugger;
-      console.log('dragend')
-      console.log(evt)
-      setPosition(evt.sourceTarget._newPos)
+    'zoomend':(evt) => {
+      urlManager.updateZoom(evt.sourceTarget._zoom)
     },
-    'zoomend': (evt) => {
-      console.log('zoomend')
-      console.log(evt)
-      setZoom(evt.sourceTarget._zoom)
-    }
-  }
-    );
-
-
-
+    'moveend':(evt) => {
+      urlManager.updatePosition([evt.sourceTarget._lastCenter.lat, evt.sourceTarget._lastCenter.lng])
+    } 
+  });
+  
   let resetMap = () => {
     map.flyTo(CHRISTCHURCH_CENTER.latlng, CHRISTCHURCH_CENTER.zoom, FLY_TO_OPTIONS)
     // refereshVisibleProperties()

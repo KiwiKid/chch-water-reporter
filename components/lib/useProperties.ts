@@ -146,7 +146,6 @@ const useProperties = ({exculdeZeroUsage, adaptiveZoom, mapZoom, mapBounds, nonM
                 }*/
             })
 
-            console.log(`setGroupedProperties ${allGroupedProperties} ${filteredProperties.length}`)
             setGroupedProperties(allGroupedProperties)
             setGroupingAmount(groupingAmount)
             setIsMapLoading(false)
