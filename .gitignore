@@ -1,3 +1,5 @@
 node_modules
 .next/*
 yarn-error.log
+pages/data/property_data_old.json
+pages/data/meta_data_old.json
