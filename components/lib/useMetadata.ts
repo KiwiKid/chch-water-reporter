@@ -29,7 +29,7 @@ const useMetaData = ():AllMetaData => {
             setAverages(metadata as unknown as MetaData[]);
             setStatus('loaded');
         }
-    }, [])
+    }, [averages])
     
 
 

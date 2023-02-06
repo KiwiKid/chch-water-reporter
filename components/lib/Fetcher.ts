@@ -74,7 +74,7 @@ class Fetcher {
         const metaResponse = await fetch(`${this.serverUrl}/chch-water-usage/averages`)
         const metaRaw:MetadataResponse = await metaResponse.json()
 
-        return metaRaw.meta..map((mr) => new Average(mr))
+        return metaRaw.meta.map((mr) => new Average(mr))
     }
 }
 
