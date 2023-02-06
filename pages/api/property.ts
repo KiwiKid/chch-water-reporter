@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Fetcher } from '../../components/lib/Fetcher'
 import Property from '../../components/Property'
 import PropertyWithUsages from '../../components/PropertyWithUsage'
-import PropertyWithUsageGenerator from '../../components/PropertyWithUsageGenerator'
 import Usage from '../../components/Usage'
 
 /**

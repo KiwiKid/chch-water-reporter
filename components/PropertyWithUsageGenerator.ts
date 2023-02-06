@@ -48,4 +48,4 @@ class PropertyWithUsageGenerator {
   }*/
 }
 
-export default PropertyWithUsageGenerator
+export { PropertyWithUsageGenerator }

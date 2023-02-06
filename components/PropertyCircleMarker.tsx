@@ -6,6 +6,7 @@ import { CartesianGrid,  Label, Line, LineChart, YAxis } from "recharts";
 import { Button } from "./Button";
 import { DetailsBlock } from './DetailsBlock'
 import CSS from 'csstype';
+import { filterToRelevant, useMetaData } from "./lib/useMetadata";
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -13,11 +14,15 @@ type PropertyCircleMarkerProps = {
 }
 
 export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarkerProps) {
+
+ // const { averages } = useMetaData()
   
   const usageData = p.usages.length > 1 ? p.usages.map((u) => {
+   // let matchingAverage = averages.filter((a) => u.date_for.indexOf(a.year) > 0 && u.date_for.indexOf(a.month) > 0)
     return {
       "name": `${u.date_for}`,
-      "level": u.avg_per_day_ltr_num
+      "level": u.avg_per_day_ltr_num,
+   //   "average": matchingAverage?.length > 0 ? matchingAverage[0].average : 0
     }
   }) : []
 
@@ -43,6 +48,7 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
             <LineChart width={popupWidth} height={120} data={usageData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <YAxis fontSize="0.8rem"><Label fontSize="1.1rem" dx={-24} angle={270} position="outside" value="lts per day"/></YAxis>
+              
               <Tooltip />
               <Line type="monotone" dataKey="level" stroke="#8884d8" />
             </LineChart>
@@ -52,9 +58,9 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
           <table width={popupWidth} > 
             <thead>
               <tr style={{fontStyle: 'bold', whiteSpace: 'nowrap'}}>
-                <th>From</th>
-                <th>For</th>
-                <th style={{}}>Per day Average</th>
+                <th>from</th>
+                <th>for</th>
+                <th style={{}}>day average</th>
               </tr>
             </thead>
             <tbody style={{fontStyle: 'bold', whiteSpace: 'nowrap'}} className="border-2">

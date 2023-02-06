@@ -1,7 +1,39 @@
 import Property from '../Property'
-import PropertyWithUsageGenerator from '../PropertyWithUsageGenerator'
+import { PropertyWithUsageGenerator } from '../PropertyWithUsageGenerator'
 import Usage from '../Usage'
 require('isomorphic-fetch')
+
+
+
+  interface MetadataResponse {
+    meta: AverageRaw[]
+  }
+  interface AverageRaw {
+    year:string
+    month:string
+    average:number
+    count:number
+  }
+
+  class Average {
+    year:string
+    month:string
+    average:number
+    count:number
+    date:Date
+    constructor({
+        year,
+        month,
+        average,
+        count
+    }:AverageRaw){
+        this.year = year
+        this.month = month
+        this.average = average
+        this.count = count
+        this.date = new Date(`03 ${month} ${year}`)
+    }
+  }
 
 class Fetcher {
     serverUrl:string
@@ -35,10 +67,20 @@ class Fetcher {
 
         return propertiesToReturn
     }
+
+
+
+    async getMeta():Promise<any>{
+        const metaResponse = await fetch(`${this.serverUrl}/chch-water-usage/averages`)
+        const metaRaw:MetadataResponse = await metaResponse.json()
+
+        return metaRaw.meta..map((mr) => new Average(mr))
+    }
 }
 
 
 
 export {
-  Fetcher
+  Fetcher,
+  Average
 } 

@@ -1,18 +1,11 @@
-import { LatLng, LeafletEvent } from "leaflet";
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
-import { useMemo } from "react";
-import { FeatureGroup, LayerGroup, LayersControl, useMap, useMapEvent, useMapEvents } from "react-leaflet";
-import getColor from "./lib/getColor";
+import React, { useState } from "react";
+import { LayersControl, useMapEvents } from "react-leaflet";
 import { useProperties } from "./lib/useProperties";
-import PropertyCircleMarker from "./PropertyCircleMarker";
-import PropertyWithUsages, { CircleSizes } from "./PropertyWithUsage";
 import { MapLayer } from './MapLayer'
-import { Button } from './Button'
 import { Settings } from './Settings'
-import Image from 'next/image'
-import { clearTimeout } from "timers";
 import { LoadingText } from "./LoadingText";
+import { useMetaData } from './lib/useMetadata'
 //import { LatLng } from 'leaflet'
 // position={new LatLng(123,13)}
 type PropertyTilesProps = {   
@@ -56,6 +49,7 @@ const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoa
   adaptiveZoom: adaptiveZoom,
   nonMap: false
 });
+
 /*
   let setLoadingHappened = () => {
     console.log('setIsLoading(true)')

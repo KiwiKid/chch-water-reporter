@@ -10,8 +10,11 @@ mv "$DIR/../pages/data/property_data.json" "$DIR/../pages/data/property_data_old
 
 curl 'http://localhost:3000/api/property' >> "$DIR/../pages/data/property_data.json"
 
+mv "$DIR/../pages/data/meta_data.json" "$DIR/../pages/data/meta_data_old.json" 
+curl 'http://localhost:3000/api/averages' >> "$DIR/../pages/data/meta_data.json"
+
 
 echo "new file here: $DIR/../pages/data/property_data.json"
 echo "(old file here: $DIR/../pages/data/property_data_old.json"
 
-echo "Commit new \"property_data.json\" file to apply"
+echo "Commit new \"*****_data.json\" files to apply"
