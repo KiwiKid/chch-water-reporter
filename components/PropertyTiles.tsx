@@ -43,11 +43,11 @@ export default function PropertyTiles({}:PropertyTilesProps) {
 })
 
 const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoading, onlyShowOver } = useProperties({
-  exculdeZeroUsage: true,
+  exculdeZeroUsage: false,
   mapBounds: map.getBounds(),
   mapZoom: map.getZoom(), 
-  adaptiveZoom: adaptiveZoom,
-  nonMap: false
+  adaptiveZoom: false,
+  nonMap: true
 });
 
 /*
@@ -81,6 +81,7 @@ const { groupedProperties, propertyCount, showingPropertyCount, status, isMapLoa
           </LayersControl.Overlay>)
       })}
       </LayersControl>}{groupedProperties && Object.keys(groupedProperties)}
+      
       <Settings 
         isLoading={isMapLoading}
         adaptiveZoom={adaptiveZoom}

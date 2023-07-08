@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import PropertyTiles from './PropertyTiles';
 import useWindowSize from './lib/useWindowSize';
 import { useRouter } from 'next/router';
 import { defaultPosition } from './defaultPosition'
+import { MyHeatmapLayer } from './HeatmapLayer'
+import { useProperties } from './lib/useProperties';
 
 type LeafletMapProps = {
 
@@ -13,6 +15,7 @@ type LeafletMapProps = {
 
 
 export default  function LeafletMap({}:LeafletMapProps) {
+  console.log('\n\nLeafletMap\n\n')
  const router = useRouter()
 
  const pageQuery = router.query;
@@ -25,6 +28,7 @@ export default  function LeafletMap({}:LeafletMapProps) {
   typeof pageQuery.lng === 'string' && parseFloat(pageQuery.lng) 
     ? [parseFloat(pageQuery.lat), parseFloat(pageQuery.lng)] 
     : defaultPosition.center
+
   
 return <>
   <style>{`
@@ -43,10 +47,12 @@ return <>
           preferCanvas={true}
           center={startingLocation}
           zoom={startingZoom}>
+                      <MyHeatmapLayer/>
+
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <PropertyTiles />
+          {/*<PropertyTiles />*/}
         </MapContainer>
     </div>}
   </>
