@@ -7,6 +7,7 @@ import { Button } from "./Button";
 import { DetailsBlock } from './DetailsBlock'
 import CSS from 'csstype';
 import { filterToRelevant, useMetaData } from "./lib/useMetadata";
+import { useRouter } from "next/router";
 
 type PropertyCircleMarkerProps = {
     p:PropertyWithUsages
@@ -28,6 +29,8 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
 
   let bordered:CSS.Properties = {border: 'black', borderStyle: 'outset', padding: '2px', margin: '1px', marginTop: '10px'}
 
+  const router = useRouter();
+
   let popupWidth = 290
 
   return (
@@ -39,6 +42,9 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
       center={p.property.point}
     >
       {p && <Popup>
+        {router.query.debug && <div>
+          {p.property.FullPostalAddress}
+          </div>}
         {p.averageUsage > 0 && <h3 data-rating-unit-id={p.property.RatingUnitID}>
           <div className="grid grid-cols-1" style={bordered}>
             <div style={{textAlign: 'left'}}><span style={{textDecoration:'underline', fontSize: `1.8rem`}}>{p.averageUsage.toFixed(0)}</span> ltrs per day
@@ -79,7 +85,8 @@ export default function PropertyCircleMarker({p, circleSize}:PropertyCircleMarke
         {/*div style={bordered}>
           <Button className="m-auto w-full" onClick={() => window.open(`/how-does-it-compare?avg=${p.averageUsage.toFixed(0)}`)}>Compare</Button>
             </div>*/}
-        {process.env.REACT_APP_DEBUG === 'true' && <pre>
+          {}
+        {process.env.REACT_APP_DEBUG === 'true' || router.query.debug && <pre>
           {JSON.stringify(p.usages, null ,4)}
           </pre>}
       </Popup>}

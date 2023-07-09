@@ -11,6 +11,7 @@ class UrlManager extends React.Component {
     postion:[number,number]
     mapMoveSettledUpdate?:ReturnType<typeof setTimeout>
     query?:string
+    debug: boolean
    // router:NextRouter
 
     constructor(props:Props){
@@ -18,6 +19,7 @@ class UrlManager extends React.Component {
     //    this.router = useRouter();
         this.zoom = props.zoom;
         this.postion = props.postion;
+        this.debug = false;
     }
 
     updateZoom(zoom:number, next:any){
@@ -26,7 +28,7 @@ class UrlManager extends React.Component {
         var self = this;
         clearTimeout(this.mapMoveSettledUpdate)
 
-        self.query = `/?zoom=${self.zoom}&lat=${self.postion[0]}&lng=${self.postion[1]}`
+        self.query = `/?zoom=${self.zoom}&lat=${self.postion[0]}&lng=${self.postion[1]}${self.debug ? '&debug=true' : ''}`
 
         next()
     }
@@ -35,7 +37,7 @@ class UrlManager extends React.Component {
         this.postion = postion;
         clearTimeout(this.mapMoveSettledUpdate)
 
-        this.query = `/?zoom=${this.zoom}&lat=${postion[0]}&lng=${postion[1]}`
+        this.query = `/?zoom=${this.zoom}&lat=${postion[0]}&lng=${postion[1]}${this.debug ? '&debug=true' : ''}`
         //    self.router.push(`${self.query}`,undefined, { shallow: true})
         next()
     }
