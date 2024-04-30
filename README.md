@@ -1,5 +1,6 @@
-This project is a experiement in displaying a mobile friendly, representation of water usage in christchurch, its goal is to raise awareness for water conservation and the need for more broad understanding of how we consume our natural resources.
-With over 170,000 addresses on the map, the app required a dyamic rendering system for higher zoom levels, which allowed for smooth scrolling, without compromissing on the detail display on the map.
+This project is an experiment in mapping the relative residential water usage in Christchurch, NZ. Its goal is to raise awareness of water conservation and promote a broader understanding of how we consume our natural resources.
+
+With over 170,000 addresses on the map, the app required a dynamic rendering system for higher zoom levels, which allowed for smooth scrolling without compromising the detail displayed on the map.
 
 ![view water usage](img/chch-reporting.PNG)
 

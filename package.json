@@ -1,5 +1,6 @@
 {
   "name": "chch-water-map",
+  "description": "An experiment in displaying residential water usage in Christchurch, NZ",
   "version": "0.1.0",
   "private": true,
   "scripts": {
